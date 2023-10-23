@@ -77,17 +77,18 @@
                     <tr *ngFor="let user of users">
                       <td class="align-middle">
                         <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
-                          <input type="checkbox" class="custom-control-input" id="item-{{user.id}}">
-                          <label class="custom-control-label" for="item-{{user.id}}"></label>
+                          <input type="checkbox" class="custom-control-input" id="item-{{user?.id}}">
+                          <label class="custom-control-label" for="item-{{user?.id}}"></label>
                         </div>
                       </td>
-                      <td class="text-nowrap align-middle">{{user.username}}</td>
-                      <td class="text-nowrap align-middle"><span>{{user.creationDate}}</span></td>
-                      <td class="text-center align-middle">{{user.enable}}</td>
+                      <td class="text-nowrap align-middle">{{user?.username}}</td>
+                      <td class="text-nowrap align-middle">{{user?.email}}</td>
+                      <td class="text-nowrap align-middle"><span>{{user?.creationDate}}</span></td>
+                      <td class="text-center align-middle">{{user?.enable}}</td>
                       <td class="text-center align-middle">
                         <div class="btn-group align-top">
-                            <button class="btn btn-sm btn-outline-secondary " type="button" data-toggle="modal" data-target="#edit-user-form-modal">Edit</button>
-                            <button class="btn btn-sm btn-outline-secondary " type="button" data-target="#delete-user-modal" (click)="onOpenModal(null, 'delete')"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary " type="button" data-toggle="modal" (click)="onOpenModal(user,'edit')" data-target="#edit-user-form-modal">Edit</button>
+                            <button class="btn btn-sm btn-outline-secondary " type="button" data-target="#delete-user-modal" (click)="onOpenModal(user,'delete')"><i class="fa fa-trash"></i></button>
                         </div>
                       </td>
                     </tr>
@@ -188,7 +189,7 @@
                     <div class="row"><br></div>
                     <div class="form-group">
                       <label>Email</label>
-                      <input class="form-control" type="text" ngModel placeholder="user@example.com">
+                      <input class="form-control" type="text" name="email" ngModel placeholder="user@example.com">
                     </div>
                     <div class="row"><br></div>
                     <div class="form-group">
@@ -228,27 +229,29 @@
                     <div class="row"><br></div>
                     <div class="form-group">
                       <label>Username</label>
-                      <input class="form-control" type="text"  name="username" placeholder="username" value="">
+                      <input class="form-control" type="text" ngModel="{{editUser?.username}}" name="username" placeholder="username" value="">
                     </div>
                   </div>
-                  <input type="hidden" name="id" class="form-control" id="id" placeholder="Email">
+                  <input type="hidden" name="id" ngModel="{{editUser?.id}}" class="form-control" id="id" placeholder="Email">
+                  <input type="hidden" name="creationDate" ngModel="{{editUser?.creationDate}}" class="form-control" id="creationDate" placeholder="creationDate">
+                  <input type="hidden" name="enable" ngModel="{{editUser?.enable}}" class="form-control" id="enable" placeholder="enable">
                   <div class="row">
                     <div class="row"><br></div>
                     <div class="form-group">
                       <label>Email</label>
-                      <input class="form-control" type="text" name="email"  placeholder="user@example.com">
+                      <input class="form-control" type="text" ngModel="{{editUser?.email}}" name="email"  placeholder="user@example.com">
                     </div>
                     <div class="row"><br></div>
                     <div class="form-group">
                       <label>Password</label>
-                      <input class="form-control" type="password" name="password"  placeholder="••••••">
+                      <input class="form-control" type="text" ngModel="{{editUser?.password}}" name="password"  placeholder="••••••">
                     </div>
                   </div>
                 </div>
                 <div class="row"><br></div>
                 <div class="row">
                   <div class="col d-flex justify-content-end">
-                    <button class="btn btn-primary" (click)="onUpdateUser(editForm.value)" type="submit">Save Changes</button>
+                    <button class="btn btn-primary" (click)="onUpdateUser(editForm.value)" data-dismiss="modal" type="submit">Save Changes</button>
                   </div>
                 </div>
               </form>
@@ -269,7 +272,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <p>Are you sure you want to delete this user?</p>
+              <p>Are you sure you want to delete the user of {{deleteUser?.username}}?</p>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                   <button (click)="onDeleteUser(deleteUser.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>

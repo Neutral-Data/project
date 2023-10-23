@@ -3,6 +3,7 @@ import { User } from './user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from './user.service';
 import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,11 @@ export class AppComponent implements OnInit {
   public editUser: User;
   public deleteUser: User;
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService, private modalService: NgbModal){}
 
   ngOnInit(): void {
       this.getUsers();
+      this.modalService.dismissAll();
   }
 
   public getUsers(): void{
@@ -38,6 +40,7 @@ export class AppComponent implements OnInit {
         console.log(response);
         this.getUsers();
         addForm.reset();
+        window.location.reload();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -51,6 +54,7 @@ export class AppComponent implements OnInit {
       (response: User) => {
         console.log(response);
         this.getUsers();
+        window.location.reload();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
