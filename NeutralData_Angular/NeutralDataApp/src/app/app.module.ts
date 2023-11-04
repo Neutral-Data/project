@@ -11,6 +11,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavComponent } from './shared/nav/nav.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NavComponent } from './shared/nav/nav.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    AppRoutingModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
