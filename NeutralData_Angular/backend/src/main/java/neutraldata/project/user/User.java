@@ -1,41 +1,50 @@
 package neutraldata.project.user;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-
-@Entity
-@Table(name="users")
-@NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-public class User implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@Builder
+@Data
+@Entity
+@Table(name = "users")
+public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String username;
-	
-	private String password;
-	
-	private String email;
-	
-	private LocalDateTime creationDate;
-	
-	private Boolean enable;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "first_name", nullable = false)
+    @Size(max = 100)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    @Size(max = 100)
+    private String lastName;
+    
+    @Column(nullable = false)
+    @Size(max = 100)
+    private String username;
+    
+    @Column(nullable = false)
+    @Size(max = 100)
+    private String email;
+
+    @Column(nullable = false)
+    private UserRole role;
+    
+    @Column(nullable = false)
+    private String creationDate;
+
+    @Column(nullable = false)
+    private boolean enable;
+    
+    @Column(nullable = false)
+    @Size(max = 100)
+    private String password;
 }

@@ -1,4 +1,2 @@
-INSERT INTO users(username,password,email,creation_Date,enable) VALUES ('admin','admin','admin@neutraldata.com','2023-10-17 10:00:00',true);
-INSERT INTO users(username,password,email,creation_Date,enable) VALUES ('user1','user1','usuario1@gmail.com','2023-10-18 18:15:30',true);
-INSERT INTO users(username,password,email,creation_Date,enable) VALUES ('user2','user2','usuario2@gmail.com','2023-10-19 12:34:04',false);
-INSERT INTO users(username,password,email,creation_Date,enable) VALUES ('user3','user3','usuario3@gmail.com','2023-10-20 21:51:03',false);
+INSERT INTO users(first_name,last_name,username,email,password,role,creation_date,enable) VALUES ('Administrador1','Apellidos1','admin1','admin@neutraldata.com','$2a$10$NYHwIjDzyogMEQiAQL5E0eThRsRQS9FZSNhAfELTFz7XUmFHvqQ1a',0,'2023-10-17 10:00',true);
+INSERT INTO users(first_name,last_name,username,email,password,role,creation_date,enable) VALUES ('Usuario1','Apellido Usuario','user1','usuario1@gmail.com','$2a$10$aHhWkQf6VEP6zTPkQmVGWu4vRymVahsxbZi29I6hdNb.80ehDGqAi',1,'2023-10-18 20:30',true);
