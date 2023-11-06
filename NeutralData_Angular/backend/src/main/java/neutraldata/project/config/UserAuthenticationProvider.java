@@ -68,7 +68,7 @@ public class UserAuthenticationProvider {
                 .email(decoded.getClaim("email").asString())
                 .role(UserRole.valueOf(decoded.getClaim("role").asString()))
                 .creationDate(decoded.getClaim("creationDate").asString())
-                .enable(Boolean.valueOf(decoded.getClaim("enable").asString()))
+                .enable(Boolean.valueOf(decoded.getClaim("enable").toString()))
                 .build();
 
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());

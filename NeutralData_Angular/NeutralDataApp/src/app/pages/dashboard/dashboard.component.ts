@@ -11,49 +11,31 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit{
-  public users: User[] = [];
+  public users!: Array<User>
   public editUser: User;
   public deleteUser: User;
 
   constructor(private userService: UserService, private modalService: NgbModal){}
 
   ngOnInit(): void {
-      this.getUsers();
+    this.userService.getUsers().then(res=>{
+      this.users=res;
+    })
       this.modalService.dismissAll();
   }
 
-  public getUsers(): void{
-    this.userService.getUsers().subscribe(
-      (response: User[]) => {
-        this.users = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
+  
 
   public onAddUser(addForm: NgForm): void{
     document.getElementById('add-user-form').click();
-    this.userService.addUser(addForm.value).subscribe(
-      (response: User) => {
-        console.log(response);
-        this.getUsers();
-        addForm.reset();
-        window.location.reload();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-        addForm.reset();
-      }
-    );
+    this.userService.addUser(addForm.value);
   }
 
   public onUpdateUser(user: User): void {
     this.userService.updateUser(user).subscribe(
       (response: User) => {
         console.log(response);
-        this.getUsers();
+        // this.getUsers();
         window.location.reload();
       },
       (error: HttpErrorResponse) => {
@@ -66,7 +48,7 @@ export class DashboardComponent implements OnInit{
     this.userService.deleteUser(userId).subscribe(
       (response: void) => {
         console.log(response);
-        this.getUsers();
+        //this.getUsers();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
