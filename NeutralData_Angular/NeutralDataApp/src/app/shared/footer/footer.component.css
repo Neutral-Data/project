@@ -1,4 +1,12 @@
 
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
 .footer .footer-socila-icon a:hover {
     background: #1baaa0;
 }
@@ -17,4 +25,12 @@
 
 a {
     text-decoration: none
+}
+
+.copyright_text{
+    font-size: 10pt;
+    margin-top: 10px;
+    text-align: left;
+    margin-left: -100px;;
+    color: #ffffff;
 }

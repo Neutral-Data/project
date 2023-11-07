@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AxiosService } from 'src/app/services/axios.service';
+import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
   selector: 'app-nav',
@@ -6,5 +10,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
+
+  router = inject(Router);
+  userService = inject(UserService);
+
+  onClickLogout(): void {
+    localStorage.removeItem('auth_token');
+    this.router.navigate(['/home']);
+  }
 
 }

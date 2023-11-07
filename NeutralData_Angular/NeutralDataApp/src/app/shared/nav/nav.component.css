@@ -1,0 +1,18 @@
+.zmdi {
+    display: inline-block;
+    color: #92befe;
+    background-color: #0D6EFD;
+    border-radius: 5px;
+    height: 70%;
+    font-size: 15px;
+    transition-delay: 0.12s;
+}
+
+.nav-link {
+    display: inline-block;
+}
+
+.nav-link:hover .zmdi {
+    color: #C2DBFE; 
+    transition-delay: 0.12s;
+}

@@ -66,5 +66,10 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("/admin")
+	public ResponseEntity<String> getAdmin() {
+		return new ResponseEntity<>("Correcto",HttpStatus.OK);
+	}
  
 }

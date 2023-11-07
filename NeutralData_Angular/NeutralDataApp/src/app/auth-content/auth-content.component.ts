@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AxiosService } from '../axios.service';
+import { AxiosService } from '../services/axios.service';
+
 
 @Component({
   selector: 'app-auth-content',

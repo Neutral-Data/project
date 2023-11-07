@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { User } from '../user';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from './user';
-import { enviroment } from './environments/enviroment';
-import axios from 'axios';
 import { AxiosService } from './axios.service';
+import { enviroment } from '../environments/enviroment';
+import { Observable } from 'rxjs';
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root'
+})
+
 export class UserService{
     private apiServerUrl = enviroment.apiBaseUrl;
 
@@ -56,4 +58,18 @@ export class UserService{
     public deleteUser(userId: number):Observable<void>{
         return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`);
     }
+
+
+    public isLogged(): boolean{
+        return localStorage.getItem('auth_token') ? true : false;
+    }
+
+    public getUser():User{
+        if(this.isLogged()){
+        return JSON.parse(atob(localStorage.getItem('auth_token').split('.')[1]));
+        }else{
+            return null;
+        }
+      }
+    
 }
