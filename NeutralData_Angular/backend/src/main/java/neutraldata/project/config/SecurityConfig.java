@@ -34,6 +34,7 @@ public class SecurityConfig {
                 		.requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
                 		.requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/user/exists/**")).permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
                 .build();

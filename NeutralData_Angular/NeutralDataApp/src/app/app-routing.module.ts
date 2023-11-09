@@ -14,13 +14,14 @@ import { ErrorComponent } from './pages/error/error.component';
 
 
 const routes: Routes = [
-  {path:'',redirectTo:'/error', pathMatch:'full'},
+  {path:'',redirectTo:'/home', pathMatch:'full'},
   {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
   {path:'about-us',component:AboutusComponent},
   {path:'error',component:ErrorComponent},
-  {path:'manage-users',component:DashboardComponent, canActivate:[loginGuard, hasRoleAdminGuard]}
+  {path:'manage-users',component:DashboardComponent, canActivate:[loginGuard, hasRoleAdminGuard]},
+  { path: '**', component:ErrorComponent },
 ];
 
 @NgModule({

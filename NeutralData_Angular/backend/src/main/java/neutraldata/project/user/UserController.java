@@ -37,6 +37,14 @@ public class UserController {
         
     }
 	
+	@GetMapping("/exists/{username}")
+    public ResponseEntity<String> getUserByUsername(@PathVariable String username) {
+        User user = userService.existsUsername(username);
+        String result = user != null ? "Exists" : "Not exists";
+        return new ResponseEntity<>(result, HttpStatus.OK);
+        
+    }
+	
 	@PostMapping("/add")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
         try {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AxiosService } from 'src/app/services/axios.service';
 
@@ -9,7 +9,10 @@ import { AxiosService } from 'src/app/services/axios.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-constructor(private axiosService: AxiosService, private router: Router) { }
+constructor() { }
+
+	axiosService = inject(AxiosService);
+	router = inject(Router);
 
   @Output() onSubmitLoginEvent = new EventEmitter();
 

@@ -1,26 +1,10 @@
 <div class="container" id="main-container" style="margin-top:50px">
     <div class="row flex-lg-nowrap">
-      <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
-        <div class="card p-3">
-          <div class="e-navlist e-navlist--active-bg">
-            <ul class="nav">
-              <li class="nav-item"><a class="nav-link px-2 active" href="#"><i class="fa fa-fw fa-bar-chart mr-1"></i><span>Overview</span></a></li>
-              <li class="nav-item"><a class="nav-link px-2" href="#" target="__blank"><i class="fa fa-fw fa-th mr-1"></i><span>CRUD</span></a></li>
-              <li class="nav-item"><a class="nav-link px-2" href="#" target="__blank"><i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    
+     
       <div class="col">
-        <div class="e-tabs mb-3 px-3">
-          <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" href="#">Users</a></li>
-          </ul>
-        </div>
-    
+       
         <div class="row flex-lg-nowrap">
-          <div class="col mb-3">
+          <div class="col mb-2">
             <div class="e-panel card">
               <div class="card-body">
                 <div class="e-table">
@@ -34,8 +18,12 @@
                               <label class="custom-control-label" for="all-items"></label>
                             </div>
                           </th>
-                          <th class="max-width">Name</th>
-                          <th class="sortable">Date</th>
+                          <th class="max-width">First name</th>
+                          <th class="max-width">Last name</th>
+                          <th class="max-width">Username</th>
+                          <th class="max-width">Email</th>
+                          <th class="sortable">Creation date</th>
+                          <th class="sortable">Role</th>
                           <th>Status</th>
                           <th>Actions</th>
                         </tr>
@@ -48,9 +36,12 @@
                               <label class="custom-control-label" for="item-{{user?.id}}"></label>
                             </div>
                           </td>
+                          <td class="text-nowrap align-middle">{{user?.firstName}}</td>
+                          <td class="text-nowrap align-middle">{{user?.lastName}}</td>
                           <td class="text-nowrap align-middle">{{user?.username}}</td>
                           <td class="text-nowrap align-middle">{{user?.email}}</td>
                           <td class="text-nowrap align-middle"><span>{{user?.creationDate}}</span></td>
+                          <td class="text-nowrap align-middle">{{user?.role}}</td>
                           <td class="text-center align-middle">{{user?.enable}}</td>
                           <td class="text-center align-middle">
                             <div class="btn-group align-top">
@@ -203,6 +194,15 @@
                   <form class="form" #editForm="ngForm">
                     <div class="row">
                       <div class="row">  
+                        <div class="form-group">
+                          <label>First name</label>
+                          <input class="form-control" type="text" ngModel="{{editUser?.firstName}}" name="firstName" placeholder="firstName" value="">
+                        </div>
+                        <div class="row"><br></div>
+                        <div class="form-group">
+                          <label>Last name</label>
+                          <input class="form-control" type="text" ngModel="{{editUser?.lastName}}" name="lastName" placeholder="lastName" value="">
+                        </div>
                         <div class="row"><br></div>
                         <div class="form-group">
                           <label>Username</label>
@@ -211,7 +211,6 @@
                       </div>
                       <input type="hidden" name="id" ngModel="{{editUser?.id}}" class="form-control" id="id" placeholder="Email">
                       <input type="hidden" name="creationDate" ngModel="{{editUser?.creationDate}}" class="form-control" id="creationDate" placeholder="creationDate">
-                      <input type="hidden" name="enable" ngModel="{{editUser?.enable}}" class="form-control" id="enable" placeholder="enable">
                       <div class="row">
                         <div class="row"><br></div>
                         <div class="form-group">
@@ -222,6 +221,11 @@
                         <div class="form-group">
                           <label>Password</label>
                           <input class="form-control" type="text" ngModel="{{editUser?.password}}" name="password"  placeholder="••••••">
+                        </div>
+                        <div class="row"><br></div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" role="switch" name="enable" ngModel="{{editUser?.enable}}" id="flexSwitchCheckDefault">
+                          <label class="form-check-label" for="flexSwitchCheckDefault">Enable account</label>
                         </div>
                       </div>
                     </div>

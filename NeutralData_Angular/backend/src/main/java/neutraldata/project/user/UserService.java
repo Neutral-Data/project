@@ -71,11 +71,18 @@ public class UserService {
         return userMapper.toUserDto(user);
     }
     
+    public User existsUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+        return user;
+    }
+    
     @Transactional
 	public User saveUser(User user) throws DataAccessException {
     	user.setCreationDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+    	
 		user.setRole(UserRole.USER);
-		user.setEnable(true);
+		//user.setEnable(true);
 		user.setPassword(passwordEncoder.encode(CharBuffer.wrap(user.getPassword())));
 		return userRepository.save(user);
 	}

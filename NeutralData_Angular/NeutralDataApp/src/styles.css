@@ -1,7 +1,9 @@
 
 body{
     background: #edf1f5;
-    
+    overflow-x: auto;
+    position: relative;
+    min-height: 100vh;
 }
 .card {
     position: relative;

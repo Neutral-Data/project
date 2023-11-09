@@ -49,20 +49,52 @@ export class UserService{
         }
     }
 
-    
-
-    public updateUser(user: User):Observable<User>{
-        return this.http.put<User>(`${this.apiServerUrl}/user/update`,user);
+    async updateUser(user: User):Promise<User>{
+        try {
+            const response = await this.axiosService.request(
+                "PUT",
+                "/user/update",
+                {
+                id: user.id,
+                firstName: user.firstName,
+		        lastName: user.lastName,
+		        username: user.username,
+            	email: user.email,
+		        password: user.password,
+                enable: user.enable,
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 
-    public deleteUser(userId: number):Observable<void>{
-        return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`);
+
+    async deleteUser(userId: number):Promise<void>{
+        try {
+            const response = await this.axiosService.request(
+                "DELETE",
+                "/user/delete/"+userId,
+                {}
+            );
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
+   
 
 
     public isLogged(): boolean{
         return localStorage.getItem('auth_token') ? true : false;
     }
+
+    public clearToken() {
+        localStorage.removeItem('auth_token');
+      }
 
     public getUser():User{
         if(this.isLogged()){

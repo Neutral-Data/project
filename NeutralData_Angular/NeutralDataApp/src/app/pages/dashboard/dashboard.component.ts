@@ -30,31 +30,17 @@ export class DashboardComponent implements OnInit{
   public onAddUser(addForm: NgForm): void{
     document.getElementById('add-user-form').click();
     this.userService.addUser(addForm.value);
+    window.location.reload();
   }
 
   public onUpdateUser(user: User): void {
-    this.userService.updateUser(user).subscribe(
-      (response: User) => {
-        console.log(response);
-        // this.getUsers();
-        window.location.reload();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+    this.userService.updateUser(user);
+    window.location.reload();
   }
 
   public onDeleteUser(userId: number): void {
-    this.userService.deleteUser(userId).subscribe(
-      (response: void) => {
-        console.log(response);
-        //this.getUsers();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+    this.userService.deleteUser(userId);
+    window.location.reload();
   }
 
   public onOpenModal(user: User, mode: string): void{
