@@ -10,12 +10,14 @@ import { HomeComponent } from './pages/home/home.component';
 import { hasRoleAdminGuard } from './guards/has-role-admin.guard';
 import { loginGuard } from './guards/login.guard';
 import { ErrorComponent } from './pages/error/error.component';
+import { UploadComponent } from './pages/upload/upload.component';
 
 
 
 const routes: Routes = [
   {path:'',redirectTo:'/home', pathMatch:'full'},
   {path:'home',component:HomeComponent},
+  {path:'upload',component:UploadComponent, canActivate:[loginGuard]},
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
   {path:'about-us',component:AboutusComponent},

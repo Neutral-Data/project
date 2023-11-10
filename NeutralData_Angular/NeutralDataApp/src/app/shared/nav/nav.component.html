@@ -13,20 +13,23 @@
             <a class="nav-link" aria-current="page" [routerLink]="['/home']"><span class="zmdi zmdi-home"></span> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">How to use?</a>
+            <a class="nav-link" href="#"><span class="zmdi zmdi-collection-text"></span> How to use?</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/about-us']">About us</a>
+            <a class="nav-link" [routerLink]="['/about-us']"><span class="zmdi zmdi-mood"></span> About us</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" *ngIf="userService.getUser()?.role == 'ADMIN'" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Admin
+              <span class="zmdi zmdi-shield-security"></span> Admin
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" [routerLink]="['/manage-users']">Manage users</a></li>
+              <li><a class="dropdown-item black" [routerLink]="['/manage-users']"><span class="zmdi zmdi-accounts"></span> Manage users</a></li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/upload']"><span class="zmdi zmdi-upload"></span> Upload file</a>
           </li>
         </ul>
       </div>
