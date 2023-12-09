@@ -50,4 +50,14 @@ public class MediaController {
 				.header(HttpHeaders.CONTENT_TYPE, contentType)
 				.body(file);
 	}
+	
+	@GetMapping("{filename:.+}/firstRowInfo")
+    public ResponseEntity<String> getFirstRowInfo(@PathVariable String filename) {
+
+        String firstRowInfo = storageService.checkFirstRow(filename);
+        
+        return ResponseEntity
+				.ok()
+				.body(firstRowInfo);
+    }
 }

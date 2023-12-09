@@ -11,5 +11,7 @@ public interface StorageService {
 	String store(MultipartFile file);
 	
 	Resource loadAsResource(String filename);
+	
+	String checkFirstRow(String filename);
 
 }

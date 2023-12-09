@@ -18,6 +18,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { UploadComponent } from './pages/upload/upload.component';
+import { DownloadComponent } from './pages/download/download.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { UploadComponent } from './pages/upload/upload.component';
     RegisterComponent,
     HomeComponent,
     ErrorComponent,
-    UploadComponent
+    UploadComponent,
+    DownloadComponent
   ],
   imports: [
     BrowserModule,

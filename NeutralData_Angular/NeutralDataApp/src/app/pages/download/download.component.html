@@ -1,0 +1,9 @@
+<br><br>
+<div *ngIf="firstRowInfo">
+    <h3>Headers Info:</h3>
+    <pre>{{ firstRowInfo }}</pre>
+  </div>
+<div *ngIf="userService.isLogged()" class="col-12 mt-30">
+    <button type="submit" (click)="downloadFile()" id="submit" class="btn btn-primary btn-lg">Download file
+    </button>
+</div>

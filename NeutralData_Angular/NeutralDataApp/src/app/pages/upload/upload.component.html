@@ -1,15 +1,7 @@
 <div class="main-container">
 <div class="container mx-auto pt-5">
 
-    <!-- <div class="mb-5">
-        <label for="file" class="form-label"> Ole</label>
-        <input type="file" class="form-control" id="file" (change)="upload($event)">
-    </div>
-
-    <div *ngIf="url">
-        <img [src]="url" alt="" class="img-fluid img-thumbnail">
-    </div> -->
-
+    
 <div class="csv-file-chooser-section">
   
   <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)"
@@ -23,8 +15,12 @@
     <option [value]="false">No</option>
   </select>
   <br><br>
-  <div>
+  <div *ngIf="!fileUploadSuccess">
     <button type="submit" [disabled]="!anyFile" (click)="upload()" id="submit" class="btn btn-primary btn-lg">Upload
+    </button>
+  </div>
+  <div *ngIf="fileUploadSuccess">
+    <button type="submit" [disabled]="!anyFile" [routerLink]="['/download']" id="submit" class="btn btn-primary btn-lg">Continue
     </button>
   </div>
   <div *ngIf="fileUploadSuccess" class="text-success">
