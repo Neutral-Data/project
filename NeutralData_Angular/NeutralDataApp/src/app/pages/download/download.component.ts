@@ -17,14 +17,13 @@ export class DownloadComponent implements OnInit,OnDestroy{
 ngOnInit(): void {
   this.mediaService.getFileId().subscribe(
     (fileId: string) => {
-      this.fileId = fileId; // Asigna el fileId obtenido
+      this.fileId = fileId;
       console.log('File ID:', this.fileId);
 
-      // Llama a getFirstRowInfo() dentro de esta suscripción
       this.mediaService.getFirstRowInfo(this.fileId).subscribe(
         (firstRowInfo) => {
           console.log('First Row Info:', firstRowInfo);
-          this.firstRowInfo = firstRowInfo; // Asigna la respuesta a una variable en el componente
+          this.firstRowInfo = firstRowInfo;
         },
         (error) => {
           console.error('Error fetching first row info:', error);
