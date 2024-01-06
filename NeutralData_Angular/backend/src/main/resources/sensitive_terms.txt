@@ -1,0 +1,53 @@
+origen
+raza
+politica
+ideologia
+religion
+afiliacion
+sindicato
+nombre
+apellido
+geneticos
+biometricos
+sexual
+orientacion
+genero
+correo
+correo electronico
+datos bancarios
+numero de cuenta
+tarjeta de credito
+IBAN
+GPS
+biometrica
+salud mental
+preferencias personales
+historial
+discapacidad
+direccion
+coodernada
+origin
+race
+politics
+ideology
+religion
+affiliation
+union
+name
+surname
+genetics
+biometrics
+sex
+orientation
+gender
+genre
+mail
+bank details
+account number
+credit card
+mental health
+personal preferences
+history
+disability
+location
+coordinate

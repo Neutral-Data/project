@@ -13,5 +13,7 @@ public interface StorageService {
 	Resource loadAsResource(String filename);
 	
 	String checkFirstRow(String filename);
+	
+	boolean deleteFile(String filename);
 
 }

@@ -23,7 +23,6 @@ export class MediaService {
     return this.http.post('http://localhost:8080/media/upload', formData, options);
   }
   
-
   obtenerUrlVistaPrevia(urlResponse: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.token
@@ -84,4 +83,18 @@ export class MediaService {
 
   return this.http.get(`http://localhost:8080/media/${filename}/firstRowInfo`, options);
 }
+
+deleteFile(fileId: string): Observable<any> {
+  const headers = new HttpHeaders({
+    Authorization: 'Bearer ' + this.token
+  });
+
+  const options = {
+    headers: headers,
+    responseType: 'text' as 'json'
+  };
+
+  return this.http.delete(`http://localhost:8080/media/${fileId}`, options);
+}
+
 }

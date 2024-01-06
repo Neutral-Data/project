@@ -1,7 +1,9 @@
 package neutraldata.project.storage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -122,7 +125,7 @@ public class FileSystemStorageService implements StorageService {
                             lines = reader.readAll();
                             if (!lines.isEmpty() && lines.get(0).length > 0) {
 
-                            	StringBuilder responseBuilder = new StringBuilder("The first row contains the following sensitive terms:");
+                            	StringBuilder responseBuilder = new StringBuilder("The first row contains the following sensitive terms:\n");
                             	for (String entry : lines.get(0)) {   
                                     
                                     boolean isBankAccount = Pattern.matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$", entry);
@@ -155,32 +158,49 @@ public class FileSystemStorageService implements StorageService {
             throw new RuntimeException("Could not read file: " + filename);
         }
     }
-    
-    private boolean containsSensitiveInformation(String entry) {
         
-    	String[] sensitiveTerms = {
-    		    // Español
-    		    "origen","raza","politica","ideologia","religion","afiliacion","sindicato","nombre","apellido",
-    		    "geneticos","biometricos","sexual","orientacion","genero","correo",
-    		    "correo electronico","datos bancarios","numero de cuenta","tarjeta de credito","IBAN","GPS",
-    		    "biometrica","salud mental","preferencias personales","historial","discapacidad","direccion","coodernada",
-    		    // Inglés
-    		    "origin","race","politics","ideology","religion","affiliation","union","name","surname",
-    		    "genetics","biometrics","sex","orientation","gender","genre","mail","bank details","account number","credit card",
-    		    "biometrics","mental health","personal preferences","history","disability","location","coordinate"
-    		};
+    private boolean containsSensitiveInformation(String entry) {
+        List<String> sensitiveTerms = readSensitiveTermsFromFile("sensitive_terms.txt");
 
         for (String term : sensitiveTerms) {
-        	String normalizedEntry = removeAccents(entry.toLowerCase());
-            if (normalizedEntry.toLowerCase().contains(term.toLowerCase())) {
+            String normalizedEntry = removeAccents(entry.toLowerCase());
+            if (normalizedEntry.contains(term.toLowerCase())) {
                 return true;
             }
         }
         return false;
+    }
+
+    private List<String> readSensitiveTermsFromFile(String fileName) {
+        List<String> terms = new ArrayList<>();
+        try (InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
+             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            if (br != null) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    terms.add(line.trim());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Could not read sensitive_terms file.");
+        }
+        return terms;
     }
     
     private String removeAccents(String text) {
         return Normalizer.normalize(text, Normalizer.Form.NFD)
             .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
+    
+    public boolean deleteFile(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
 }

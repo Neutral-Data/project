@@ -31,14 +31,24 @@ ngOnInit(): void {
       );
     },
     (error) => {
-      console.error('Error al obtener el File ID:', error);
+      console.error('Error obtaining File ID:', error);
     }
   );
 }
 
   ngOnDestroy(): void {
-    this.mediaService.setOriginalFileName(null);
-    this.mediaService.setFileId(null);
+    // this.mediaService.setOriginalFileName(null);
+    // this.mediaService.setFileId(null);
+    if (this.fileId) {
+      this.mediaService.deleteFile(this.fileId).subscribe(
+        () => {
+          console.log('File deleted from server');
+        },
+        (error) => {
+          console.error('Error deleting file from server:', error);
+        }
+      );
+    }
   }
 
   downloadFile() {

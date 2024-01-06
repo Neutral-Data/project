@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,5 +61,16 @@ public class MediaController {
         return ResponseEntity
 				.ok()
 				.body(firstRowInfo);
+    }
+	
+	@DeleteMapping("{filename:.+}")
+    public ResponseEntity<String> deleteFile(@PathVariable String filename) {
+        boolean deleted = storageService.deleteFile(filename);
+
+        if (deleted) {
+            return ResponseEntity.ok("File deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not delete file");
+        }
     }
 }
