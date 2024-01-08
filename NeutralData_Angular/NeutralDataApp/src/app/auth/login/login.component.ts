@@ -19,6 +19,7 @@ constructor() { }
   username: string = "";
   email: string = "";
   password: string = "";
+  login_error: boolean = false;
 
   onLogin(): void {
 		this.axiosService.request(
@@ -34,6 +35,7 @@ constructor() { }
 		    }).catch(
 		    error => {
 		        this.axiosService.setAuthToken(null);
+				this.login_error = true;
 		    }
 		);
 

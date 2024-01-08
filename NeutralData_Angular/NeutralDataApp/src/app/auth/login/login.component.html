@@ -21,7 +21,12 @@
                                             <input type="password" id="password" class="form-control" name="password" [(ngModel)]="password" placeholder="Password">
                                         </div>
                                     </div>
-                                    <br><br>
+                                    <div *ngIf="login_error" class="text-danger">
+                                        Wrong password or username.
+                                    </div>
+                                    <div *ngIf="!login_error">
+                                        <br>
+                                    </div>
                                     <div class="col-12 text-lg-right">
                                         <a href="#" class="c-black">Forgot password ?</a>
                                     </div>

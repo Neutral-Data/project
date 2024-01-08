@@ -71,7 +71,7 @@ export class MediaService {
     return this.filIdSubject.asObservable();
   }
 
-  getFirstRowInfo(filename: string): Observable<any> {
+  getDetectionInfo(filename: string): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': 'Bearer ' + this.token
   });
@@ -81,7 +81,7 @@ export class MediaService {
     responseType: 'text' as 'json'
   };
 
-  return this.http.get(`http://localhost:8080/media/${filename}/firstRowInfo`, options);
+  return this.http.get(`http://localhost:8080/media/${filename}/detection`, options);
 }
 
 deleteFile(fileId: string): Observable<any> {

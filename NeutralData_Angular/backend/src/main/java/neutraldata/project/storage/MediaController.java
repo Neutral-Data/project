@@ -44,7 +44,7 @@ public class MediaController {
 	
 	@GetMapping("{filename:.+}")
 	public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException{
-		Resource file = storageService.loadAsResource(filename);
+		Resource file = storageService.loadAsResource("new_"+filename);
 		String contentType = Files.probeContentType(file.getFile().toPath());
 		
 		return ResponseEntity
@@ -53,14 +53,15 @@ public class MediaController {
 				.body(file);
 	}
 	
-	@GetMapping("{filename:.+}/firstRowInfo")
-    public ResponseEntity<String> getFirstRowInfo(@PathVariable String filename) {
+	@GetMapping("{filename:.+}/detection")
+    public ResponseEntity<String> getDetection(@PathVariable String filename) {
 
         String firstRowInfo = storageService.checkFirstRow(filename);
+        String allRowsInfo = storageService.checkRows(filename);
         
         return ResponseEntity
 				.ok()
-				.body(firstRowInfo);
+				.body(firstRowInfo+"\n"+allRowsInfo);
     }
 	
 	@DeleteMapping("{filename:.+}")

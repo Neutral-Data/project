@@ -14,6 +14,8 @@ public interface StorageService {
 	
 	String checkFirstRow(String filename);
 	
+	String checkRows(String filename);
+	
 	boolean deleteFile(String filename);
 
 }

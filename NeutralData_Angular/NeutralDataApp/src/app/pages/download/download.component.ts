@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class DownloadComponent implements OnInit,OnDestroy{
   mediaService = inject(MediaService);
   userService = inject(UserService);
-  firstRowInfo: any;
+  detectionInfo: any;
   fileId: string = '';
 
 ngOnInit(): void {
@@ -20,10 +20,10 @@ ngOnInit(): void {
       this.fileId = fileId;
       console.log('File ID:', this.fileId);
 
-      this.mediaService.getFirstRowInfo(this.fileId).subscribe(
-        (firstRowInfo) => {
-          console.log('First Row Info:', firstRowInfo);
-          this.firstRowInfo = firstRowInfo;
+      this.mediaService.getDetectionInfo(this.fileId).subscribe(
+        (detectionInfo) => {
+          console.log('First Row Info:', detectionInfo);
+          this.detectionInfo = detectionInfo;
         },
         (error) => {
           console.error('Error fetching first row info:', error);

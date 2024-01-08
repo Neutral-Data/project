@@ -1,0 +1,14 @@
+hombre
+mujer
+masculino
+femenino
+heteresexual
+homosexual
+gay
+bisexual
+trans
+man
+woman
+male
+female
+lesbian
