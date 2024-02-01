@@ -201,7 +201,7 @@ public class FileSystemStorageService implements StorageService {
                         throw new RuntimeException("Error reading CSV file: " + filename, e);
                     }
 
-                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows contain sensitive terms:\n");
+                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain sensitive terms:\n");
                     List<Integer> sensitiveRows = new ArrayList<>();
 
                     for (int rowIndex = 0; rowIndex < lines.size(); rowIndex++) {
@@ -231,27 +231,27 @@ public class FileSystemStorageService implements StorageService {
                         }
                     }
 
-//                    try {
-//                        Path newFile = rootLocation.resolve("new_" + filename);
-//
-//                        try (Writer writer = Files.newBufferedWriter(newFile, StandardOpenOption.CREATE);
-//                             CSVWriter csvWriter = new CSVWriter(writer,
-//                                     CSVWriter.DEFAULT_SEPARATOR,
-//                                     CSVWriter.NO_QUOTE_CHARACTER,
-//                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-//                                     CSVWriter.DEFAULT_LINE_END)) {
-//                            for (int i = 0; i < lines.size(); i++) {
-//                                if (!sensitiveRows.contains(i)) {
-//                                    csvWriter.writeNext(lines.get(i));
-//                                }
-//                            }
-//                        }
-//
-//                        return responseBuilder.toString();
-//                    } catch (IOException e) {
-//                        throw new RuntimeException("Error writing new CSV file: " + filename, e);
-//                    }
-                    return responseBuilder.toString();
+                    try {
+                        Path newFile = rootLocation.resolve("new_" + filename);
+
+                        try (Writer writer = Files.newBufferedWriter(newFile, StandardOpenOption.CREATE);
+                             CSVWriter csvWriter = new CSVWriter(writer,
+                                     CSVWriter.DEFAULT_SEPARATOR,
+                                     CSVWriter.NO_QUOTE_CHARACTER,
+                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                     CSVWriter.DEFAULT_LINE_END)) {
+                            for (int i = 0; i < lines.size(); i++) {
+                                if (!sensitiveRows.contains(i)) {
+                                    csvWriter.writeNext(lines.get(i));
+                                }
+                            }
+                        }
+
+                        return responseBuilder.toString();
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error writing new CSV file: " + filename, e);
+                    }
+                    //return responseBuilder.toString();
 
                 }
                 throw new RuntimeException("Could not read file " + filename);
