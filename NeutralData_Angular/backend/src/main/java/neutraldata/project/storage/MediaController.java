@@ -54,14 +54,23 @@ public class MediaController {
 	}
 	
 	@GetMapping("{filename:.+}/detection")
-    public ResponseEntity<String> getDetection(@PathVariable String filename) {
+    public ResponseEntity<String> getDetection(
+            @PathVariable String filename,
+            @RequestParam(required = false, defaultValue = "false") boolean detectColumns,
+            @RequestParam(required = false, defaultValue = "false") boolean detectRows) {
 
-        String firstRowInfo = storageService.checkFirstRow(filename);
-        String allRowsInfo = storageService.checkRows(filename);
-        
-        return ResponseEntity
-				.ok()
-				.body(firstRowInfo+"\n"+allRowsInfo);
+        Detector baseDetector = new BaseDetector(storageService);
+
+        if (detectColumns) {
+            baseDetector = new ColumnDetectorDecorator(baseDetector,storageService);
+        }
+        if (detectRows) {
+            baseDetector = new RowDetectorDecorator(baseDetector,storageService);
+        }
+
+        String detectionInfo = baseDetector.detect(filename);
+
+        return ResponseEntity.ok(detectionInfo);
     }
 	
 	@DeleteMapping("{filename:.+}")
