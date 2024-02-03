@@ -57,7 +57,8 @@ public class MediaController {
     public ResponseEntity<String> getDetection(
             @PathVariable String filename,
             @RequestParam(required = false, defaultValue = "false") boolean detectColumns,
-            @RequestParam(required = false, defaultValue = "false") boolean detectRows) {
+            @RequestParam(required = false, defaultValue = "false") boolean detectRows,
+            @RequestParam(required = false, defaultValue = "false") boolean detectProfanity) {
 
         Detector baseDetector = new BaseDetector(storageService);
 
@@ -67,7 +68,9 @@ public class MediaController {
         if (detectRows) {
             baseDetector = new RowDetectorDecorator(baseDetector,storageService);
         }
-
+        if (detectProfanity) {
+            baseDetector = new ProfanityDetectorDecorator(baseDetector,storageService);
+        }
         String detectionInfo = baseDetector.detect(filename);
 
         return ResponseEntity.ok(detectionInfo);

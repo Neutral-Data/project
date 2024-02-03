@@ -81,7 +81,7 @@ export class MediaService {
     responseType: 'text' as 'json'
   };
 
-  return this.http.get(`http://localhost:8080/media/${filename}/detection?detectColumns=true&detectRows=true`, options);
+  return this.http.get(`http://localhost:8080/media/${filename}/detection?detectColumns=false&detectRows=false&detectProfanity=true`, options);
 }
 
 deleteFile(fileId: string): Observable<any> {

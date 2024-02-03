@@ -322,4 +322,92 @@ public class FileSystemStorageService implements StorageService {
         }
     }
     
+    @Override
+    public String checkProfanity(String filename, String profanityFilename) {
+        try {
+            Path csvFilePath = rootLocation.resolve(filename);
+            Path profanityFilePath = rootLocation.resolve(profanityFilename);
+
+            Resource csvResource = new UrlResource(csvFilePath.toUri());
+
+            if (csvResource.exists() && csvResource.isReadable()) {
+                if (filename.endsWith(".csv")) {
+                    List<String[]> csvLines;
+
+                    try (CSVReader csvReader = new CSVReader(Files.newBufferedReader(csvFilePath))) {
+                        csvLines = csvReader.readAll();
+                    } catch (IOException | CsvException e) {
+                        throw new RuntimeException("Error reading CSV file: " + filename, e);
+                    }
+
+                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain profanity terms:\n");
+                    List<Integer> sensitiveRows = new ArrayList<>();
+
+                    // Leer el CSV de profanidades
+                    List<String[]> profanityTerms;
+                    try (CSVReader profanityReader = new CSVReader(Files.newBufferedReader(profanityFilePath))) {
+                        profanityTerms = profanityReader.readAll();
+                    } catch (IOException | CsvException e) {
+                        throw new RuntimeException("Error reading profanity CSV file: " + profanityFilename, e);
+                    }
+
+                    for (int rowIndex = 0; rowIndex < csvLines.size(); rowIndex++) {
+                        String[] row = csvLines.get(rowIndex);
+                        String detectedTerm = containsProfanityInRow(row, profanityTerms);
+
+                        if (detectedTerm != null) {
+                            sensitiveRows.add(rowIndex);
+                            responseBuilder.append("Row ").append(rowIndex + 1).append(": Detected profanity term - ").append(detectedTerm).append("\n");
+                            responseBuilder.append(String.join(",", row)).append("\n");
+                        }
+                    }
+
+                    try {
+                        Path newFilePath = rootLocation.resolve("new_" + filename);
+
+                        try (Writer writer = Files.newBufferedWriter(newFilePath, StandardOpenOption.CREATE);
+                             CSVWriter csvWriter = new CSVWriter(writer,
+                                     CSVWriter.DEFAULT_SEPARATOR,
+                                     CSVWriter.NO_QUOTE_CHARACTER,
+                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                     CSVWriter.DEFAULT_LINE_END)) {
+                            for (int i = 0; i < csvLines.size(); i++) {
+                                if (!sensitiveRows.contains(i)) {
+                                    csvWriter.writeNext(csvLines.get(i));
+                                }
+                            }
+                        }
+
+                        return responseBuilder.toString();
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error writing new CSV file: " + filename, e);
+                    }
+                }
+                throw new RuntimeException("Invalid file format. Only CSV files are supported: " + filename);
+            }
+            throw new RuntimeException("Could not read file " + filename);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Malformed URL for file: " + filename);
+        }
+    }
+
+    private String containsProfanityInRow(String[] row, List<String[]> profanityTerms) {
+        for (String[] profanityTerm : profanityTerms) {
+            String termToCompare = profanityTerm[0];
+
+            boolean termFound = false;
+            for (String entry : row) {
+                String normalizedEntry = removeAccents(entry.toLowerCase());
+                if (normalizedEntry.contains(termToCompare.toLowerCase())) {
+                    termFound = true;
+                    break;
+                }
+            }
+
+            if (termFound) {
+                return termToCompare;
+            }
+        }
+        return null;
+    }
 }

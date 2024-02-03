@@ -16,6 +16,8 @@ public interface StorageService {
 	
 	String checkRows(String filename);
 	
+	String checkProfanity(String filename,String profanityFilename);
+	
 	boolean deleteFile(String filename);
 
 }
