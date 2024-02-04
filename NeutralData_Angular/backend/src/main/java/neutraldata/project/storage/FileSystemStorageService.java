@@ -78,12 +78,7 @@ public class FileSystemStorageService implements StorageService {
                 if (filename.endsWith(".csv")) {
                     try (CSVReader reader = new CSVReader(Files.newBufferedReader(file))) {
                         List<String[]> lines = reader.readAll();
-
-                        String firstRowCheck = checkFirstRow(filename);
-                        if (lines.size() > 0) {
-                            System.out.println(firstRowCheck);
-                        }
-
+                        
                         Writer writer = Files.newBufferedWriter(file, StandardOpenOption.TRUNCATE_EXISTING);
                         CSVWriter csvWriter = new CSVWriter(writer,
                                 CSVWriter.DEFAULT_SEPARATOR,

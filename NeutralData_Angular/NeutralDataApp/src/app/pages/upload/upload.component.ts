@@ -10,6 +10,8 @@ import { MediaService } from 'src/app/services/media.service';
 })
 export class UploadComponent {
   mediaService = inject(MediaService);
+  router = inject(Router);
+
   csvfile: any;
   csvRecords: any[] = [];
   anyFile: boolean = false;
@@ -18,10 +20,12 @@ export class UploadComponent {
   fileUploadError: boolean = false;
   fileUploadSuccess: boolean = false;
   columnHeaders: string[] = [];
-  firstRowInfo: any;
+  
+  detectColumns: boolean = true;
+  detectRows: boolean = true;
+  detectProfanity: boolean = false;
 
   constructor(private ngxCsvParser: NgxCsvParser) {}
-  router = inject(Router);
 
   @ViewChild('fileImportInput') fileImportInput: any;
 
@@ -55,7 +59,12 @@ export class UploadComponent {
   upload() {
     const formData = new FormData();
     formData.append("file", this.csvfile);
-  
+    this.mediaService.setDetectOptions({
+      detectColumns: this.detectColumns,
+      detectRows: this.detectRows,
+      detectProfanity: this.detectProfanity
+    });
+    
     this.mediaService.uploadFile(formData).subscribe(
       (response) => {
         this.mediaService.setFileUrl(response['url']);
@@ -72,6 +81,4 @@ export class UploadComponent {
       }
     );
   }
-//this.router.navigate(['/download']);
-  
 }

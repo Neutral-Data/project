@@ -71,17 +71,38 @@ export class MediaService {
     return this.filIdSubject.asObservable();
   }
 
+  private detectOptions: any = {
+    detectColumns: true,
+    detectRows: true,
+    detectProfanity: false
+  };
+
+  setDetectOptions(options: any): void {
+    this.detectOptions = options;
+  }
+
+  getDetectOptions(): any {
+    return this.detectOptions;
+  }
+
   getDetectionInfo(filename: string): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': 'Bearer ' + this.token
   });
 
+  const detectOptions = this.getDetectOptions();
+
   const options = {
     headers: headers,
+    params: {
+      'detectColumns': detectOptions.detectColumns.toString(),
+      'detectRows': detectOptions.detectRows.toString(),
+      'detectProfanity': detectOptions.detectProfanity.toString()
+    },
     responseType: 'text' as 'json'
   };
 
-  return this.http.get(`http://localhost:8080/media/${filename}/detection?detectColumns=false&detectRows=false&detectProfanity=true`, options);
+  return this.http.get(`http://localhost:8080/media/${filename}/detection`, options);
 }
 
 deleteFile(fileId: string): Observable<any> {
