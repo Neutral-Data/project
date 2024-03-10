@@ -23,7 +23,7 @@ export class UploadComponent {
   
   detectColumns: boolean = true;
   detectRows: boolean = true;
-  detectProfanity: boolean = false;
+  detectProfanity: boolean = true;
 
   constructor(private ngxCsvParser: NgxCsvParser) {}
 

@@ -1,5 +1,6 @@
 package neutraldata.project.storage;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import neutraldata.project.exception.FileNotFoundException;
 
 @RestController
 @RequestMapping("media")
@@ -43,20 +45,23 @@ public class MediaController {
 	}
 	
 	@GetMapping("{filename:.+}")
-	public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException{
-		Resource file = storageService.loadAsResource("new_"+filename);
-		String contentType = Files.probeContentType(file.getFile().toPath());
-		
-		return ResponseEntity
-				.ok()
-				.header(HttpHeaders.CONTENT_TYPE, contentType)
-				.body(file);
-	}
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException {
+        Resource file = storageService.loadAsResource("new_" + filename);
+        if (file == null || !file.exists()) {
+            throw new FileNotFoundException("File not found: " + filename);
+        }
+        String contentType = Files.probeContentType(file.getFile().toPath());
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, contentType)
+                .body(file);
+    }
 	
 	@GetMapping("{filename:.+}/detection")
     public ResponseEntity<String> getDetection(
             @PathVariable String filename,
-            @RequestParam(required = false, defaultValue = "false") boolean detectColumns,
+            @RequestParam(required = false, defaultValue = "true") boolean detectColumns,
             @RequestParam(required = false, defaultValue = "false") boolean detectRows,
             @RequestParam(required = false, defaultValue = "false") boolean detectProfanity) {
 
