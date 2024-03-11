@@ -61,7 +61,7 @@ public class MediaController {
 	@GetMapping("{filename:.+}/detection")
     public ResponseEntity<String> getDetection(
             @PathVariable String filename,
-            @RequestParam(required = false, defaultValue = "true") boolean detectColumns,
+            @RequestParam(required = false, defaultValue = "false") boolean detectColumns,
             @RequestParam(required = false, defaultValue = "false") boolean detectRows,
             @RequestParam(required = false, defaultValue = "false") boolean detectProfanity) {
 

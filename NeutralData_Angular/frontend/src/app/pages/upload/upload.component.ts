@@ -70,7 +70,6 @@ export class UploadComponent {
         this.mediaService.setFileUrl(response['url']);
         this.mediaService.setOriginalFileName(this.csvfile['name']);
         this.mediaService.setFileId(response['url'].split('/media/')[1]);
-        const fileId = response['url'].split('/media/')[1];
         this.fileUploadError = false;
         this.fileUploadSuccess = true;
       },

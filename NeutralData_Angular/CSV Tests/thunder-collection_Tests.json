@@ -1,0 +1,222 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Tests",
+    "dateExported": "2024-03-11T02:39:08.530Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "58ff2e57-f2dd-4186-a47f-57d04dce7c40",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Login",
+            "url": "http://localhost:8080/login",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-03-11T01:45:44.521Z",
+            "modified": "2024-03-11T02:17:39.179Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"username\": \"user1\",\n    \"password\": \"user1\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{token}}"
+                }
+            ]
+        },
+        {
+            "_id": "f787b864-2150-4e5d-b7bc-52ac59ddd928",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Upload",
+            "url": "http://localhost:8080/media/upload",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-03-11T01:49:53.430Z",
+            "modified": "2024-03-11T02:19:34.832Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [],
+                "files": [
+                    {
+                        "name": "file",
+                        "value": "c:\\Users\\Ismael\\Documents\\TFG\\NeutralData_Angular\\CSV Tests\\StudentsPerformance.csv"
+                    }
+                ]
+            },
+            "reqType": "post",
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.url",
+                    "action": "setto",
+                    "value": "{{url}}"
+                }
+            ]
+        },
+        {
+            "_id": "abe7d553-8d04-4b04-ac00-4062a2187542",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Detect Columns",
+            "url": "{{url}}/detection?detectColumns=true",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-03-11T02:10:29.061Z",
+            "modified": "2024-03-11T02:17:34.056Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "detectColumns",
+                    "value": "true",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "1a522390-33e8-4ea3-8bd5-5f1ef9dad076",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Detect Rows",
+            "url": "{{url}}/detection?detectRows=true",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-03-11T02:20:09.487Z",
+            "modified": "2024-03-11T02:20:33.781Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "detectRows",
+                    "value": "true",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5049db60-4a03-43de-a14a-770f659c2f1a",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Detect Profanity",
+            "url": "{{url}}/detection?detectProfanity=true",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-03-11T02:20:50.294Z",
+            "modified": "2024-03-11T02:22:18.245Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "detectProfanity",
+                    "value": "true",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "ff6221b2-470a-4c5c-865d-dccb4739f21d",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Detect Columns and Rows",
+            "url": "{{url}}/detection?detectColumns=true&detectRows=true",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-03-11T02:22:35.076Z",
+            "modified": "2024-03-11T02:23:33.357Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "detectColumns",
+                    "value": "true",
+                    "isPath": false
+                },
+                {
+                    "name": "detectRows",
+                    "value": "true",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "6a32cac1-a10c-49d9-9ecf-025a975508b5",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Download",
+            "url": "{{url}}",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-03-11T02:23:57.290Z",
+            "modified": "2024-03-11T02:24:16.952Z",
+            "headers": [],
+            "params": [],
+            "reqType": "get",
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "74e25015-3a50-4a5c-980e-8f616c6a4114",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Delete",
+            "url": "{{url}}",
+            "method": "DELETE",
+            "sortNum": 80000,
+            "created": "2024-03-11T02:35:40.843Z",
+            "modified": "2024-03-11T02:37:16.236Z",
+            "headers": [],
+            "params": [],
+            "reqType": "get",
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        }
+    ],
+    "settings": {
+        "runOptions": {
+            "delay": 100,
+            "iterations": 1,
+            "dataFilePath": ""
+        }
+    }
+}

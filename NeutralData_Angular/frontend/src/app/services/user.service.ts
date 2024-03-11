@@ -3,7 +3,6 @@ import { User } from '../user';
 import { HttpClient } from '@angular/common/http';
 import { AxiosService } from './axios.service';
 import { enviroment } from '../environments/enviroment';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AxiosService } from 'src/app/services/axios.service';
 import { UserService } from 'src/app/services/user.service';
 
 
