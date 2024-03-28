@@ -1,10 +1,86 @@
 {
     "client": "Thunder Client",
     "collectionName": "Tests",
-    "dateExported": "2024-03-11T02:39:08.530Z",
+    "dateExported": "2024-03-28T00:34:24.462Z",
     "version": "1.1",
     "folders": [],
     "requests": [
+        {
+            "_id": "ef61df15-f6aa-4032-bf25-e642fa109649",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Login User Failed",
+            "url": "http://localhost:8080/login",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2024-03-28T00:22:12.877Z",
+            "modified": "2024-03-28T00:23:51.693Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"username\": \"user\",\n    \"password\": \"user\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.message",
+                    "action": "equal",
+                    "value": "Unknown user"
+                }
+            ]
+        },
+        {
+            "_id": "b0aacb3b-5568-4848-b562-5ed355aab94d",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Login Password Failed",
+            "url": "http://localhost:8080/login",
+            "method": "POST",
+            "sortNum": 7500,
+            "created": "2024-03-28T00:24:28.824Z",
+            "modified": "2024-03-28T00:25:43.010Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"username\": \"user1\",\n    \"password\": \"user\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "400"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.message",
+                    "action": "equal",
+                    "value": "Invalid password"
+                }
+            ]
+        },
         {
             "_id": "58ff2e57-f2dd-4186-a47f-57d04dce7c40",
             "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
@@ -14,7 +90,7 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2024-03-11T01:45:44.521Z",
-            "modified": "2024-03-11T02:17:39.179Z",
+            "modified": "2024-03-27T23:16:12.232Z",
             "headers": [],
             "params": [],
             "body": {
@@ -22,13 +98,108 @@
                 "raw": "{\n    \"username\": \"user1\",\n    \"password\": \"user1\"\n}",
                 "form": []
             },
-            "reqType": "post",
             "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "2"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.firstName",
+                    "action": "equal",
+                    "value": "Usuario1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.lastName",
+                    "action": "equal",
+                    "value": "Apellido Usuario"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.username",
+                    "action": "equal",
+                    "value": "user1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.role",
+                    "action": "equal",
+                    "value": "USER"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.enable",
+                    "action": "equal",
+                    "value": "true"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.token",
+                    "action": "notequal",
+                    "value": "null"
+                },
                 {
                     "type": "set-env-var",
                     "custom": "json.token",
                     "action": "setto",
                     "value": "{{token}}"
+                }
+            ]
+        },
+        {
+            "_id": "4dd46b2b-5815-4ba3-a6a4-33d7fd65c46c",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Upload Without File",
+            "url": "http://localhost:8080/media/upload",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2024-03-28T00:25:55.713Z",
+            "modified": "2024-03-28T00:27:41.801Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "text",
+                "raw": "Example text",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "401"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.message",
+                    "action": "equal",
+                    "value": "Unauthorized path"
                 }
             ]
         },
@@ -41,7 +212,7 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2024-03-11T01:49:53.430Z",
-            "modified": "2024-03-11T02:19:34.832Z",
+            "modified": "2024-03-27T23:54:58.494Z",
             "headers": [],
             "params": [],
             "body": {
@@ -51,11 +222,10 @@
                 "files": [
                     {
                         "name": "file",
-                        "value": "c:\\Users\\Ismael\\Documents\\TFG\\NeutralData_Angular\\CSV Tests\\StudentsPerformance.csv"
+                        "value": "c:\\Users\\Ismael\\Documents\\TFG\\NeutralData_Angular\\CSV Tests\\Heavy Tests.csv"
                     }
                 ]
             },
-            "reqType": "post",
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
@@ -66,6 +236,63 @@
                     "custom": "json.url",
                     "action": "setto",
                     "value": "{{url}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.url",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ]
+        },
+        {
+            "_id": "36aa0d11-7163-4440-8feb-f6c716c82057",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Detect Without Token",
+            "url": "{{url}}/detection?detectColumns=true",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2024-03-28T00:28:00.971Z",
+            "modified": "2024-03-28T00:30:13.648Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "detectColumns",
+                    "value": "true",
+                    "isPath": false
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "401"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.message",
+                    "action": "equal",
+                    "value": "Unauthorized path"
                 }
             ]
         },
@@ -78,7 +305,7 @@
             "method": "GET",
             "sortNum": 30000,
             "created": "2024-03-11T02:10:29.061Z",
-            "modified": "2024-03-11T02:17:34.056Z",
+            "modified": "2024-03-27T23:57:16.732Z",
             "headers": [],
             "params": [
                 {
@@ -91,7 +318,38 @@
                 "type": "bearer",
                 "bearer": "{{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "email"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "customer_surname"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "account iban"
+                }
+            ]
         },
         {
             "_id": "1a522390-33e8-4ea3-8bd5-5f1ef9dad076",
@@ -102,7 +360,7 @@
             "method": "GET",
             "sortNum": 40000,
             "created": "2024-03-11T02:20:09.487Z",
-            "modified": "2024-03-11T02:20:33.781Z",
+            "modified": "2024-03-28T00:16:47.653Z",
             "headers": [],
             "params": [
                 {
@@ -111,12 +369,42 @@
                     "isPath": false
                 }
             ],
-            "reqType": "get",
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "Content-Length",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "9510466"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "name"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "email"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                }
+            ]
         },
         {
             "_id": "5049db60-4a03-43de-a14a-770f659c2f1a",
@@ -127,7 +415,7 @@
             "method": "GET",
             "sortNum": 50000,
             "created": "2024-03-11T02:20:50.294Z",
-            "modified": "2024-03-11T02:22:18.245Z",
+            "modified": "2024-03-28T00:16:46.824Z",
             "headers": [],
             "params": [
                 {
@@ -136,12 +424,42 @@
                     "isPath": false
                 }
             ],
-            "reqType": "get",
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "Content-Length",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "9513602"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "sex"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "anal"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                }
+            ]
         },
         {
             "_id": "ff6221b2-470a-4c5c-865d-dccb4739f21d",
@@ -152,7 +470,7 @@
             "method": "GET",
             "sortNum": 60000,
             "created": "2024-03-11T02:22:35.076Z",
-            "modified": "2024-03-11T02:23:33.357Z",
+            "modified": "2024-03-28T00:16:41.439Z",
             "headers": [],
             "params": [
                 {
@@ -166,12 +484,54 @@
                     "isPath": false
                 }
             ],
-            "reqType": "get",
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "Content-Length",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "9522555"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "sex"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "gender"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "email"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "male"
+                }
+            ]
         },
         {
             "_id": "6a32cac1-a10c-49d9-9ecf-025a975508b5",
@@ -182,15 +542,27 @@
             "method": "GET",
             "sortNum": 70000,
             "created": "2024-03-11T02:23:57.290Z",
-            "modified": "2024-03-11T02:24:16.952Z",
+            "modified": "2024-03-28T00:19:16.686Z",
             "headers": [],
             "params": [],
-            "reqType": "get",
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                }
+            ]
         },
         {
             "_id": "74e25015-3a50-4a5c-980e-8f616c6a4114",
@@ -201,15 +573,70 @@
             "method": "DELETE",
             "sortNum": 80000,
             "created": "2024-03-11T02:35:40.843Z",
-            "modified": "2024-03-11T02:37:16.236Z",
+            "modified": "2024-03-28T00:20:20.342Z",
             "headers": [],
             "params": [],
-            "reqType": "get",
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "File deleted successfully"
+                }
+            ]
+        },
+        {
+            "_id": "80938120-1c44-4090-9523-fda502a378f3",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Delete Undefined FIle",
+            "url": "{{url}}",
+            "method": "DELETE",
+            "sortNum": 90000,
+            "created": "2024-03-28T00:20:42.883Z",
+            "modified": "2024-03-28T00:22:07.099Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "Could not delete file"
+                }
+            ]
         }
     ],
     "settings": {
