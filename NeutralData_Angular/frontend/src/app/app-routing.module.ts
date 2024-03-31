@@ -11,6 +11,8 @@ import { loginGuard } from './guards/login.guard';
 import { ErrorComponent } from './pages/error/error.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { DownloadComponent } from './pages/download/download.component';
+import { GithubComponent } from './pages/github/github.component';
+import { UploadGithubComponent } from './pages/upload-github/upload-github.component';
 
 
 
@@ -18,6 +20,8 @@ const routes: Routes = [
   {path:'',redirectTo:'/home', pathMatch:'full'},
   {path:'home',component:HomeComponent},
   {path:'upload',component:UploadComponent, canActivate:[loginGuard]},
+  {path:'upload-github',component:UploadGithubComponent, canActivate:[loginGuard]},
+  {path:'github',component:GithubComponent, canActivate:[loginGuard]},
   {path:'download',component:DownloadComponent, canActivate:[loginGuard]},
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},

@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="username">GitHub username:</label>
+        <input type="text" id="username" class="form-control" [(ngModel)]="username">
+      </div>
+    </div>
+    <!-- <div class="col-md-6">
+      <div class="form-group">
+        <label for="token">GitHub Token:</label>
+        <input type="text" id="token" class="form-control" [(ngModel)]="token">
+      </div>
+    </div> -->
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <br>
+      <button class="btn btn-primary" (click)="loadRepos()">Load repositories</button>
+    </div>
+  </div>
+
+    <h2>Repositories of {{ username }}</h2>
+    <div class="mt-3" style="overflow-y: auto; max-height: 400px;">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let repo of repos">
+        <a [href]="repo.html_url" target="_blank">{{ repo.name }}</a>
+        <ul class="list-group mt-2">
+          <li class="list-group-item" *ngIf="repo.csvFiles && repo.csvFiles.length > 0">
+            <p>CSV files found:</p>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let csvFile of repo.csvFiles">
+                <a href="javascript:void(0)" (click)="selectCSVFile(csvFile)">{{ csvFile }}</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-group-item" *ngIf="!repo.csvFiles || repo.csvFiles.length === 0">
+            <p>No CSV files found in this repository.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

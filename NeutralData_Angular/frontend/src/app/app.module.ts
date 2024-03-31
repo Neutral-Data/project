@@ -19,6 +19,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { DownloadComponent } from './pages/download/download.component';
+import { GithubComponent } from './pages/github/github.component';
+import { UploadGithubComponent } from './pages/upload-github/upload-github.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { DownloadComponent } from './pages/download/download.component';
     HomeComponent,
     ErrorComponent,
     UploadComponent,
-    DownloadComponent
+    DownloadComponent,
+    GithubComponent,
+    UploadGithubComponent
   ],
   imports: [
     BrowserModule,

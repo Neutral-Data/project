@@ -1,0 +1,38 @@
+.csv-file-chooser-section {
+    padding: 10px;
+    margin: 5%;
+    border: 1px solid;
+    text-align: center;
+}
+
+.csv-result-table {
+    margin: 5% auto;
+    width: 100%; 
+    overflow-x: auto; 
+    flex-grow: 1; 
+    overflow-y: auto;
+    
+}
+
+table {
+    width: 100%; 
+    border-collapse: collapse;
+    margin-bottom: 15px; 
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #0D6EFD;
+    color: white;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }

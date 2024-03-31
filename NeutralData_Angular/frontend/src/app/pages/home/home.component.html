@@ -7,8 +7,8 @@
             <p *ngIf="!userService.isLogged()" className="lead">Login to use NeutralData.</p>
             <p *ngIf="!userService.isLogged()" className="lead">If you don't have an account, register.</p>
             <div *ngIf="userService.isLogged()" class="col-12 mt-30">
-                <button type="submit" [routerLink]="['/upload']" id="submit" class="btn btn-primary btn-lg">Upload file
-                </button>
+                <button type="submit" [routerLink]="['/upload']" id="submit" class="btn btn-primary btn-lg">Upload file</button><br><br>
+                <button type="submit" [routerLink]="['/github']" id="submit" class="btn btn-primary btn-lg">Select file from GitHub repository</button>
             </div>
         </div>
         </div>
