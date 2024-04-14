@@ -63,12 +63,13 @@ ngOnInit(): void {
                 take(1),
                 switchMap((fileName) => {
                   if (fileName) {
+                    const adjustedFileName = this.adjustFileName(fileName);
                     const file = new Blob([data], { type: 'application/octet-stream' });
                     const fileURL = URL.createObjectURL(file);
                     const link = document.createElement('a');
                     link.href = fileURL;
-                    link.download = 'ND_' + fileName;
-
+                    link.download = 'ND_' + adjustedFileName;
+  
                     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
                   }
                   return [];
@@ -80,5 +81,12 @@ ngOnInit(): void {
         return [];
       })
     ).subscribe();
+  }
+  
+  private adjustFileName(fileName: string): string {
+    if (fileName.toLowerCase().endsWith('.xlsx')) {
+      return fileName.replace('.xlsx', '.csv');
+    }
+    return fileName;
   }
 }

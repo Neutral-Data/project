@@ -2,6 +2,7 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxCSVParserError, NgxCsvParser } from 'ngx-csv-parser';
 import { MediaService } from 'src/app/services/media.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-upload',
@@ -20,7 +21,7 @@ export class UploadComponent {
   fileUploadError: boolean = false;
   fileUploadSuccess: boolean = false;
   columnHeaders: string[] = [];
-  
+
   detectColumns: boolean = true;
   detectRows: boolean = true;
   detectProfanity: boolean = true;
@@ -32,13 +33,49 @@ export class UploadComponent {
   fileChangeListener($event: any): void {
     const files = $event.srcElement.files;
     this.header = (this.header as unknown as string) === 'true' || this.header === true;
+
     if (files && files.length > 0) {
+      const file: File = files[0];
+
+      if (file.name.endsWith('.xlsx')) {
+        this.convertExcelToCSV(file);
+      } else {
+        this.anyFile = true;
+        this.showContent = true;
+        this.csvfile = file;
+
+        this.parseCSV(file);
+      }
+    }
+  }
+
+  convertExcelToCSV(file: File): void {
+    const reader: FileReader = new FileReader();
+
+    reader.onload = (e: any) => {
+      const fileContent = e.target.result;
+      const workbook: XLSX.WorkBook = XLSX.read(fileContent, { type: 'binary' });
+
+      const firstSheetName: string = workbook.SheetNames[0];
+      const worksheet: XLSX.WorkSheet = workbook.Sheets[firstSheetName];
+
+      const excelData: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      const csvData: string = excelData.map((row: any) => row.join(',')).join('\n');
+
       this.anyFile = true;
       this.showContent = true;
-      this.csvfile = files[0];
-    }
+      this.csvfile = new File([csvData], file.name.replace('.xlsx', '.csv'), { type: 'text/csv' });
+
+      this.parseCSV(this.csvfile);
+    };
+
+    reader.readAsBinaryString(file);
+  }
+
+  parseCSV(file: File): void {
     this.ngxCsvParser
-      .parse(files[0], {
+      .parse(file, {
         header: this.header,
         delimiter: ',',
         encoding: 'utf8'
@@ -55,7 +92,7 @@ export class UploadComponent {
         }
       );
   }
-  
+
   upload() {
     const formData = new FormData();
     formData.append("file", this.csvfile);
