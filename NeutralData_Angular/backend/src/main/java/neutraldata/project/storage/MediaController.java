@@ -1,6 +1,5 @@
 package neutraldata.project.storage;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
@@ -28,30 +27,31 @@ import neutraldata.project.exception.FileNotFoundException;
 @AllArgsConstructor
 public class MediaController {
 
-	private final StorageService storageService;
-	private final HttpServletRequest request;
-	
-	@PostMapping("upload")
-	public Map<String,String> uploadFile(@RequestParam("file") MultipartFile multipartFile,@RequestParam(value = "customTerms", required = false) String customTerms){
-		String path = storageService.store(multipartFile);
-		String host = request.getRequestURL().toString().replace(request.getRequestURI(),"");
-		String url = ServletUriComponentsBuilder
-				.fromHttpUrl(host)
-				.path("/media/")
-				.path(path)
-				.toUriString();
-		String ownTermsFile = "None";
-		if (customTerms != null && !customTerms.isEmpty()) {
+    private final StorageService storageService;
+    private final HttpServletRequest request;
+
+    @PostMapping("upload")
+    public Map<String, String> uploadFile(@RequestParam("file") MultipartFile multipartFile,
+            @RequestParam(value = "customTerms", required = false) String customTerms) {
+        String path = storageService.store(multipartFile);
+        String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String url = ServletUriComponentsBuilder
+                .fromHttpUrl(host)
+                .path("/media/")
+                .path(path)
+                .toUriString();
+        String ownTermsFile = "None";
+        if (customTerms != null && !customTerms.isEmpty()) {
             try {
-            	ownTermsFile = storageService.storeText(customTerms);
+                ownTermsFile = storageService.storeText(customTerms);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-		return Map.of("url",url,"terms",ownTermsFile);
-	}
-	
-	@GetMapping("{filename:.+}")
+        return Map.of("url", url, "terms", ownTermsFile);
+    }
+
+    @GetMapping("{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException {
         Resource file = storageService.loadAsResource("new_" + filename);
         if (file == null || !file.exists()) {
@@ -64,45 +64,45 @@ public class MediaController {
                 .header(HttpHeaders.CONTENT_TYPE, contentType)
                 .body(file);
     }
-	
-	@GetMapping("{filename:.+}/detection")
+
+    @GetMapping("{filename:.+}/detection")
     public ResponseEntity<String> getDetection(
             @PathVariable String filename,
             @RequestParam(required = false, defaultValue = "false") boolean detectColumns,
             @RequestParam(required = false, defaultValue = "false") boolean detectRows,
             @RequestParam(required = false, defaultValue = "false") boolean detectProfanity,
             @RequestParam(required = false, defaultValue = "false") boolean ownTerms,
-            @RequestParam(value = "ownTermsName", required = false) String ownTermsName
-    		) {
+            @RequestParam(value = "ownTermsName", required = false) String ownTermsName) {
 
         Detector baseDetector = new BaseDetector(storageService);
 
         if (detectColumns) {
-            baseDetector = new ColumnDetectorDecorator(baseDetector,storageService);
+            baseDetector = new ColumnDetectorDecorator(baseDetector, storageService);
         }
         if (detectRows) {
-            baseDetector = new RowDetectorDecorator(baseDetector,storageService);
+            baseDetector = new RowDetectorDecorator(baseDetector, storageService);
         }
         if (detectProfanity) {
-            baseDetector = new ProfanityDetectorDecorator(baseDetector,storageService);
+            baseDetector = new ProfanityDetectorDecorator(baseDetector, storageService);
         }
-        
-        if(ownTerms && ownTermsName != null && !ownTermsName.isEmpty()) {
-        	baseDetector = new OwnTermsDetectorDecorator(baseDetector,storageService,ownTermsName);
+
+        if (ownTerms && ownTermsName != null && !ownTermsName.isEmpty()) {
+            baseDetector = new OwnTermsDetectorDecorator(baseDetector, storageService, ownTermsName);
         }
-        
+
         String detectionInfo = baseDetector.detect(filename);
 
         return ResponseEntity.ok(detectionInfo);
     }
-	
-	@DeleteMapping("{filename:.+}")
-    public ResponseEntity<String> deleteFile(@PathVariable String filename,@RequestParam(value = "ownTermsName", required = false) String ownTermsName) {
+
+    @DeleteMapping("{filename:.+}")
+    public ResponseEntity<String> deleteFile(@PathVariable String filename,
+            @RequestParam(value = "ownTermsName", required = false) String ownTermsName) {
         boolean deleted = storageService.deleteFile(filename);
-        if(ownTermsName != null && !ownTermsName.isEmpty()) {
-        	storageService.deleteFile(ownTermsName);
+        if (ownTermsName != null && !ownTermsName.isEmpty()) {
+            storageService.deleteFile(ownTermsName);
         }
-        
+
         if (deleted) {
             return ResponseEntity.ok("File deleted successfully");
         } else {

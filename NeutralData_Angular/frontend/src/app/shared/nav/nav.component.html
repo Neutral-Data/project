@@ -1,50 +1,92 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin:0 auto">
-    <div class="container-fluid">
-      <a class="navbar-brand" [routerLink]="['/home']">
-        <img src="/assets/images/NeutralDataLogo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-        NeutralData
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" [routerLink]="['/home']"><span class="zmdi zmdi-home"></span> Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/how-to-use']"><span class="zmdi zmdi-collection-text"></span> How to use?</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/about-us']"><span class="zmdi zmdi-mood"></span> About us</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" *ngIf="userService.getUser()?.role == 'ADMIN'" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="zmdi zmdi-shield-security"></span> Admin
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item black" [routerLink]="['/manage-users']"><span class="zmdi zmdi-accounts"></span> Manage users</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/upload']"><span class="zmdi zmdi-upload"></span> Upload file</a>
-          </li>
-        </ul>
-      </div>
-      <div class="d-flex align-items-right">
-        <ul class="navbar-nav">
-          <li *ngIf="!userService.isLogged()" class="nav-item">
-            <a class="nav-link" aria-current="page" [routerLink]="['/login']"><span class="zmdi zmdi-power"></span> Login</a>
-          </li>
-          <li *ngIf="!userService.isLogged()" class="nav-item">
-            <a class="nav-link" aria-current="page" [routerLink]="['/register']"><span class="zmdi zmdi-accounts-add"></span> Sign up</a>
-          </li>
-          <li *ngIf="userService.isLogged()" class="nav-item">
-            <a class="nav-link" (click)="onClickLogout()" aria-current="page" >Logout
-              <span class="zmdi zmdi-sign-in"></span>
-            </a>
-          </li>
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-primary"
+  style="margin: 0 auto"
+>
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/home']">
+      <img
+        src="/assets/images/NeutralDataLogo.png"
+        alt="Logo"
+        width="30"
+        height="24"
+        class="d-inline-block align-text-top"
+      />
+      NeutralData
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/home']"
+            ><span class="zmdi zmdi-home"></span> Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/how-to-use']"
+            ><span class="zmdi zmdi-collection-text"></span> How to use?</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/about-us']"
+            ><span class="zmdi zmdi-mood"></span> About us</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            *ngIf="userService.getUser()?.role == 'ADMIN'"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span class="zmdi zmdi-shield-security"></span> Admin
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li>
+              <a class="dropdown-item black" [routerLink]="['/manage-users']"
+                ><span class="zmdi zmdi-accounts"></span> Manage users</a
+              >
+            </li>
           </ul>
-      </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/upload']"
+            ><span class="zmdi zmdi-upload"></span> Upload file</a
+          >
+        </li>
+      </ul>
     </div>
-  </nav>
+    <div class="d-flex align-items-right">
+      <ul class="navbar-nav">
+        <li *ngIf="!userService.isLogged()" class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/login']"
+            ><span class="zmdi zmdi-power"></span> Login</a
+          >
+        </li>
+        <li *ngIf="!userService.isLogged()" class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/register']"
+            ><span class="zmdi zmdi-accounts-add"></span> Sign up</a
+          >
+        </li>
+        <li *ngIf="userService.isLogged()" class="nav-item">
+          <a class="nav-link" (click)="onClickLogout()" aria-current="page"
+            >Logout
+            <span class="zmdi zmdi-sign-in"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

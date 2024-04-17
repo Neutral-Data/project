@@ -1,18 +1,18 @@
-.footer{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 a {
-    text-decoration: none
+  text-decoration: none;
 }
 
-.copyright_text{
-    font-size: 10pt;
-    margin-top: 10px;
-    text-align: left;
-    margin-left: -100px;;
-    color: #ffffff;
+.copyright_text {
+  font-size: 10pt;
+  margin-top: 10px;
+  text-align: left;
+  margin-left: -100px;
+  color: #ffffff;
 }

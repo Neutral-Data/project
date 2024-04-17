@@ -1,96 +1,115 @@
 <div class="main-container">
-    <div class="container mx-auto pt-5">
-      <div class="csv-file-chooser-section">
-        <div class="row">
-          <div class="col-md-6">
-              <br>
-            <table class="settings-table">
-              <tr>
-                <td>Parse Headers?</td>
-                <td>
-                  <select aria-placeholder="Parse headers?" [(ngModel)]="header">
-                    <option [value]="true">Yes</option>
-                    <option [value]="false">No</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td>Detect Columns</td>
-                <td>
-                  <label>
-                    <input type="checkbox" [(ngModel)]="detectColumns" />
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>Detect Rows</td>
-                <td>
-                  <label>
-                    <input type="checkbox" [(ngModel)]="detectRows" />
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>Detect Profanity</td>
-                <td>
-                  <label>
-                    <input type="checkbox" [(ngModel)]="detectProfanity" />
-                  </label>
-                </td>
-              </tr>
-            </table>
-            <br>
-            <div *ngIf="!fileUploadSuccess">
-              <button type="submit" (click)="upload()" id="submit" class="btn btn-primary btn-lg">Upload</button>
-            </div>
-            <div *ngIf="fileUploadSuccess">
-              <button type="submit" [routerLink]="['/download']" id="submit"
-                class="btn btn-primary btn-lg">Continue</button>
-            </div>
-            <div *ngIf="fileUploadSuccess" class="text-success">
-              The file was uploaded successfully.
-            </div>
-            <div *ngIf="fileUploadError" class="text-danger">
-              There was a problem uploading the file
-            </div>
-          </div>
-          <div class="col-md-6">
-            <br>
-            <h4 class="text-center mb-3">Add your own terms (separated by commas):</h4>
-            <textarea rows="10" style="width: 90%; height:70%;" placeholder="Enter your own sensitive terms here, remember to separate it with simple commas..." [(ngModel)]="customTerms"></textarea>
-          </div>
-        </div>
-      </div>
-      
-      <div class="csv-result-table" *ngIf="showContent; else loading">
-        <div *ngIf="fileName" style="text-align: center;">
-            <h1>File Name: {{ fileName }}</h1>
-        </div>
-        <table>
-          <thead>
+  <div class="container mx-auto pt-5">
+    <div class="csv-file-chooser-section">
+      <div class="row">
+        <div class="col-md-6">
+          <br />
+          <table class="settings-table">
             <tr>
-              <th>#</th>
-              <th *ngFor="let header of columnHeaders">{{ header }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let csvData of csvRecords; let i = index;">
-              <td>{{ i + 1 }}</td>
-              <td *ngFor="let header of columnHeaders">
-                <span>{{ csvData[header] }}</span>
+              <td>Parse Headers?</td>
+              <td>
+                <select aria-placeholder="Parse headers?" [(ngModel)]="header">
+                  <option [value]="true">Yes</option>
+                  <option [value]="false">No</option>
+                </select>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-  
-      <ng-template #loading>
-        <div class="text-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+            <tr>
+              <td>Detect Columns</td>
+              <td>
+                <label>
+                  <input type="checkbox" [(ngModel)]="detectColumns" />
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>Detect Rows</td>
+              <td>
+                <label>
+                  <input type="checkbox" [(ngModel)]="detectRows" />
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>Detect Profanity</td>
+              <td>
+                <label>
+                  <input type="checkbox" [(ngModel)]="detectProfanity" />
+                </label>
+              </td>
+            </tr>
+          </table>
+          <br />
+          <div *ngIf="!fileUploadSuccess">
+            <button
+              type="submit"
+              (click)="upload()"
+              id="submit"
+              class="btn btn-primary btn-lg"
+            >
+              Upload
+            </button>
+          </div>
+          <div *ngIf="fileUploadSuccess">
+            <button
+              type="submit"
+              [routerLink]="['/download']"
+              id="submit"
+              class="btn btn-primary btn-lg"
+            >
+              Continue
+            </button>
+          </div>
+          <div *ngIf="fileUploadSuccess" class="text-success">
+            The file was uploaded successfully.
+          </div>
+          <div *ngIf="fileUploadError" class="text-danger">
+            There was a problem uploading the file
+          </div>
         </div>
-      </ng-template>
+        <div class="col-md-6">
+          <br />
+          <h4 class="text-center mb-3">
+            Add your own terms (separated by commas):
+          </h4>
+          <textarea
+            rows="10"
+            style="width: 90%; height: 70%"
+            placeholder="Enter your own sensitive terms here, remember to separate it with simple commas..."
+            [(ngModel)]="customTerms"
+          ></textarea>
+        </div>
+      </div>
     </div>
+
+    <div class="csv-result-table" *ngIf="showContent; else loading">
+      <div *ngIf="fileName" style="text-align: center">
+        <h1>File Name: {{ fileName }}</h1>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th *ngFor="let header of columnHeaders">{{ header }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let csvData of csvRecords; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngFor="let header of columnHeaders">
+              <span>{{ csvData[header] }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #loading>
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
-  
+</div>

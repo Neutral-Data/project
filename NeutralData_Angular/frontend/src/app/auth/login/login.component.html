@@ -1,54 +1,77 @@
 <div class="main-container">
-    <div class="secondary-container">
-        <div class="row">
-            <div class="col-md-11 mt-60 mx-md-auto">
-                <div class="login-box bg-white pl-lg-5 pl-0">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap bg-white">
-                                <h4 class="btm-sep pb-3 mb-5">Login</h4>
-                                <form class="form" (ngSubmit)="onLogin()" #loginForm="ngForm">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-group position-relative">
-                                                <span class="zmdi zmdi-account"></span>
-                                                <input type="text" id="username" name= "username" class="form-control" [(ngModel)]="username" placeholder="Username">
-                                            </div>
-                                        </div>
-                                        <br><br>
-                                        <div class="col-12">
-                                            <div class="form-group position-relative">
-                                                <span class="zmdi zmdi-lock-outline"></span>
-                                                <input type="password" id="password" class="form-control" name="password" [(ngModel)]="password" placeholder="Password">
-                                            </div>
-                                        </div>
-                                        <div *ngIf="login_error" class="text-danger">
-                                            Wrong password or username.
-                                        </div>
-                                        <div *ngIf="!login_error">
-                                            <br>
-                                        </div>
-                                        <div class="col-12 text-lg-right">
-                                            <a href="mailto:admin@neutraldata.com" class="c-black">Forgot password?</a>
-                                        </div>
-                                        <br><br>
-                                        <div class="col-12 mt-30">
-                                            <button type="submit" id="submit" class="btn btn-primary btn-lg">Sign In
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="content text-center">
-                                <h3 class="c-black">First time here?</h3>
-                                <a [routerLink]="['/register']" class="btn btn-primary btn-sm">Sign up</a>
-                            </div>
-                        </div>
+  <div class="secondary-container">
+    <div class="row">
+      <div class="col-md-11 mt-60 mx-md-auto">
+        <div class="login-box bg-white pl-lg-5 pl-0">
+          <div class="row no-gutters align-items-center">
+            <div class="col-md-6">
+              <div class="form-wrap bg-white">
+                <h4 class="btm-sep pb-3 mb-5">Login</h4>
+                <form class="form" (ngSubmit)="onLogin()" #loginForm="ngForm">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group position-relative">
+                        <span class="zmdi zmdi-account"></span>
+                        <input
+                          type="text"
+                          id="username"
+                          name="username"
+                          class="form-control"
+                          [(ngModel)]="username"
+                          placeholder="Username"
+                        />
+                      </div>
                     </div>
-                </div>
+                    <br /><br />
+                    <div class="col-12">
+                      <div class="form-group position-relative">
+                        <span class="zmdi zmdi-lock-outline"></span>
+                        <input
+                          type="password"
+                          id="password"
+                          class="form-control"
+                          name="password"
+                          [(ngModel)]="password"
+                          placeholder="Password"
+                        />
+                      </div>
+                    </div>
+                    <div *ngIf="login_error" class="text-danger">
+                      Wrong password or username.
+                    </div>
+                    <div *ngIf="!login_error">
+                      <br />
+                    </div>
+                    <div class="col-12 text-lg-right">
+                      <a href="mailto:admin@neutraldata.com" class="c-black"
+                        >Forgot password?</a
+                      >
+                    </div>
+                    <br /><br />
+                    <div class="col-12 mt-30">
+                      <button
+                        type="submit"
+                        id="submit"
+                        class="btn btn-primary btn-lg"
+                      >
+                        Sign In
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
+            <div class="col-md-6">
+              <div class="content text-center">
+                <h3 class="c-black">First time here?</h3>
+                <a [routerLink]="['/register']" class="btn btn-primary btn-sm"
+                  >Sign up</a
+                >
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

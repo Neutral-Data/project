@@ -4,13 +4,12 @@ import { Observable, forkJoin, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GithubService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   private csvFileUrl: string = '';
-  
+
   setCsvFileUrl(url: string): void {
     this.csvFileUrl = url;
   }
@@ -23,22 +22,31 @@ export class GithubService {
     let headers = {};
     if (token) {
       headers = {
-        Authorization: `token ${token}`
+        Authorization: `token ${token}`,
       };
-      return this.http.get<any[]>(`https://api.github.com/users/${username}/repos`, { headers });
-    }else{
-      return this.http.get<any[]>(`https://api.github.com/users/${username}/repos`, { headers });
+      return this.http.get<any[]>(
+        `https://api.github.com/users/${username}/repos`,
+        { headers }
+      );
+    } else {
+      return this.http.get<any[]>(
+        `https://api.github.com/users/${username}/repos`,
+        { headers }
+      );
     }
   }
-   
+
   getCSVFiles(username: string, repository: string): Observable<string[]> {
     const url = `https://api.github.com/repos/${username}/${repository}/contents`;
-  
+
     return this.http.get<any[]>(url).pipe(
-      switchMap(files => {
+      switchMap((files) => {
         const observables: Observable<string | string[]>[] = [];
-        files.forEach(file => {
-          if (file.type === 'file' && (file.name.endsWith('.csv') || file.name.endsWith('.xlsx'))) {
+        files.forEach((file) => {
+          if (
+            file.type === 'file' &&
+            (file.name.endsWith('.csv') || file.name.endsWith('.xlsx'))
+          ) {
             observables.push(of(file.download_url));
           } else if (file.type === 'dir') {
             observables.push(this.getFilesInDirectory(file.url));
@@ -46,10 +54,10 @@ export class GithubService {
         });
         return forkJoin(observables);
       }),
-      map(urls => {
-        return urls.map(url => Array.isArray(url) ? url[0] : url);
+      map((urls) => {
+        return urls.map((url) => (Array.isArray(url) ? url[0] : url));
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error fetching CSV files:', error);
         return of([]);
       })
@@ -57,12 +65,19 @@ export class GithubService {
   }
   private getFilesInDirectory(url: string): Observable<string[]> {
     return this.http.get<any[]>(url).pipe(
-      map(files => files.filter(file => file.type === 'file' && (file.name.endsWith('.csv') || file.name.endsWith('.xlsx'))).map(file => file.download_url)),
-      catchError(error => {
+      map((files) =>
+        files
+          .filter(
+            (file) =>
+              file.type === 'file' &&
+              (file.name.endsWith('.csv') || file.name.endsWith('.xlsx'))
+          )
+          .map((file) => file.download_url)
+      ),
+      catchError((error) => {
         console.error('Error fetching files in directory:', error);
         return of([]);
       })
     );
   }
-  
 }

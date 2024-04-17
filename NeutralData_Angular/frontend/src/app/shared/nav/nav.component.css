@@ -1,38 +1,38 @@
 .zmdi {
-    display: inline-block;
-    color: #92befe;
-    background-color: #0D6EFD;
-    border-radius: 5px;
-    height: 70%;
-    font-size: 15px;
-    transition-delay: 0.12s;
+  display: inline-block;
+  color: #92befe;
+  background-color: #0d6efd;
+  border-radius: 5px;
+  height: 70%;
+  font-size: 15px;
+  transition-delay: 0.12s;
 }
 
 .nav-link {
-    display: inline-block;
+  display: inline-block;
 }
 
 .nav-link:hover .zmdi {
-    color: #C2DBFE; 
-    transition-delay: 0.12s;
+  color: #c2dbfe;
+  transition-delay: 0.12s;
 }
 
-.black .zmdi{
-    display: inline-block;
-    color: #000000;
-    background-color: #ffffff;
-    border-radius: 5px;
-    height: 70%;
-    font-size: 15px;
-    transition-delay: 0.000000000000000001s;
+.black .zmdi {
+  display: inline-block;
+  color: #000000;
+  background-color: #ffffff;
+  border-radius: 5px;
+  height: 70%;
+  font-size: 15px;
+  transition-delay: 0.000000000000000001s;
 }
 
 .black:active .zmdi {
-    display: inline-block;
-    color: #92befe;
-    background-color: #0D6EFD;
-    border-radius: 5px;
-    height: 70%;
-    font-size: 15px;
-    transition-delay: 0.000000000000000001s;
+  display: inline-block;
+  color: #92befe;
+  background-color: #0d6efd;
+  border-radius: 5px;
+  height: 70%;
+  font-size: 15px;
+  transition-delay: 0.000000000000000001s;
 }

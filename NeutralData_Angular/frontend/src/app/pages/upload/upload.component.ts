@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css']
+  styleUrls: ['./upload.component.css'],
 })
 export class UploadComponent {
   mediaService = inject(MediaService);
@@ -35,7 +35,8 @@ export class UploadComponent {
 
   fileChangeListener($event: any): void {
     const files = $event.srcElement.files;
-    this.header = (this.header as unknown as string) === 'true' || this.header === true;
+    this.header =
+      (this.header as unknown as string) === 'true' || this.header === true;
 
     if (files && files.length > 0) {
       const file: File = files[0];
@@ -57,18 +58,26 @@ export class UploadComponent {
 
     reader.onload = (e: any) => {
       const fileContent = e.target.result;
-      const workbook: XLSX.WorkBook = XLSX.read(fileContent, { type: 'binary' });
+      const workbook: XLSX.WorkBook = XLSX.read(fileContent, {
+        type: 'binary',
+      });
 
       const firstSheetName: string = workbook.SheetNames[0];
       const worksheet: XLSX.WorkSheet = workbook.Sheets[firstSheetName];
 
-      const excelData: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      const excelData: any[] = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1,
+      });
 
-      const csvData: string = excelData.map((row: any) => row.join(',')).join('\n');
+      const csvData: string = excelData
+        .map((row: any) => row.join(','))
+        .join('\n');
 
       this.anyFile = true;
       this.showContent = true;
-      this.csvfile = new File([csvData], file.name.replace('.xlsx', '.csv'), { type: 'text/csv' });
+      this.csvfile = new File([csvData], file.name.replace('.xlsx', '.csv'), {
+        type: 'text/csv',
+      });
 
       this.parseCSV(this.csvfile);
     };
@@ -81,13 +90,15 @@ export class UploadComponent {
       .parse(file, {
         header: this.header,
         delimiter: ',',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       .pipe()
       .subscribe(
         (result: Array<any>) => {
           this.csvRecords = result.slice(0, 100);
-          this.columnHeaders = this.header ? Object.keys(result[0]) : Object.keys(result[0]);
+          this.columnHeaders = this.header
+            ? Object.keys(result[0])
+            : Object.keys(result[0]);
         },
         (error: NgxCSVParserError) => {
           console.log('Error', error);
@@ -98,18 +109,18 @@ export class UploadComponent {
 
   upload() {
     const formData = new FormData();
-    formData.append("file", this.csvfile);
+    formData.append('file', this.csvfile);
     if (this.customTerms.trim() !== '') {
-      formData.append("customTerms", this.customTerms.trim());
+      formData.append('customTerms', this.customTerms.trim());
       this.ownTerms = true;
     }
     this.mediaService.setDetectOptions({
       detectColumns: this.detectColumns,
       detectRows: this.detectRows,
       detectProfanity: this.detectProfanity,
-      ownTerms: this.ownTerms
+      ownTerms: this.ownTerms,
     });
-    
+
     this.mediaService.uploadFile(formData).subscribe(
       (response) => {
         this.mediaService.setFileUrl(response['url']);

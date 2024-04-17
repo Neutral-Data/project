@@ -1,56 +1,64 @@
 .csv-file-chooser-section {
-    padding: 10px;
-    margin: 5%;
-    text-align: center;
-    background: #87ACBE;
+  padding: 10px;
+  margin: 5%;
+  text-align: center;
+  background: #87acbe;
 }
 
 .csv-file-chooser-section input[type="checkbox"] {
-    transform: scale(2);
-  }
+  transform: scale(2);
+}
 
-  .settings-table {
-    border-collapse: collapse;
-  }
-  
-  .settings-table td {
-    border: none;
-  }
+.settings-table {
+  border-collapse: collapse;
+}
+
+.settings-table td {
+  border: none;
+}
 
 .csv-result-table {
-    margin: 5% auto;
-    width: 100%; 
-    overflow-x: auto; 
-    flex-grow: 1; 
-    overflow-y: auto;
+  margin: 5% auto;
+  width: 100%;
+  overflow-x: auto;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 table {
-    width: 100%; 
-    border-collapse: collapse;
-    margin-bottom: 15px; 
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 12px;
-    text-align: center;
-    background: #87ACBE;
+th,
+td {
+  border: 1px solid black;
+  padding: 12px;
+  text-align: center;
+  background: #87acbe;
 }
 
 th {
-    background-color: #0D6EFD;
-    color: white;
+  background-color: #0d6efd;
+  color: white;
 }
 
 .main-container {
-    background: linear-gradient(to bottom, #0D6EFD,#42D6FC,#74F9FE,#42D6FC, #0D6EFD);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 50px;
-    align-items: center;
-    color:#ffffff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  }
+  background: linear-gradient(
+    to bottom,
+    #0d6efd,
+    #42d6fc,
+    #74f9fe,
+    #42d6fc,
+    #0d6efd
+  );
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  align-items: center;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}

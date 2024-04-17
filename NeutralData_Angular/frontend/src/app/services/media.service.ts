@@ -3,33 +3,35 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MediaService {
-
   http = inject(HttpClient);
 
-  token = window.localStorage.getItem("auth_token");
+  token = window.localStorage.getItem('auth_token');
 
-  uploadFile(formData: FormData){
-    
+  uploadFile(formData: FormData) {
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
+      Authorization: 'Bearer ' + this.token,
     });
-  
+
     const options = {
-      headers: headers
+      headers: headers,
     };
-    return this.http.post('http://localhost:8080/media/upload', formData, options);
+    return this.http.post(
+      'http://localhost:8080/media/upload',
+      formData,
+      options
+    );
   }
-  
+
   obtenerUrlVistaPrevia(urlResponse: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
+      Authorization: 'Bearer ' + this.token,
     });
-  
+
     const options = {
-      headers: headers
+      headers: headers,
     };
 
     return this.http.get(urlResponse, options);
@@ -37,7 +39,7 @@ export class MediaService {
 
   getFile(filename: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
+      Authorization: 'Bearer ' + this.token,
     });
 
     return this.http.get(filename, { headers, responseType: 'blob' });
@@ -74,7 +76,7 @@ export class MediaService {
   private detectOptions: any = {
     detectColumns: true,
     detectRows: true,
-    detectProfanity: false
+    detectProfanity: false,
   };
 
   setDetectOptions(options: any): void {
@@ -86,33 +88,36 @@ export class MediaService {
   }
 
   getDetectionInfo(filename: string): Observable<any> {
-  const headers = new HttpHeaders({
-    'Authorization': 'Bearer ' + this.token
-  });
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this.token,
+    });
 
-  const detectOptions = this.getDetectOptions();
-  const ownTermsName = this.getOwnTermName();
-  let params = {
-    'detectColumns': detectOptions.detectColumns.toString(),
-    'detectRows': detectOptions.detectRows.toString(),
-    'detectProfanity': detectOptions.detectProfanity.toString(),
-    'ownTerms': detectOptions.ownTerms.toString()
-  };
-  
-  ownTermsName.subscribe((name: string) => {
-    if (name && name.trim() !== '') {
-      params['ownTermsName'] = name.toString();
-    }
-  });
+    const detectOptions = this.getDetectOptions();
+    const ownTermsName = this.getOwnTermName();
+    let params = {
+      detectColumns: detectOptions.detectColumns.toString(),
+      detectRows: detectOptions.detectRows.toString(),
+      detectProfanity: detectOptions.detectProfanity.toString(),
+      ownTerms: detectOptions.ownTerms.toString(),
+    };
 
-  const options = {
-    headers: headers,
-    params: params,
-    responseType: 'text' as 'json'
-  };
+    ownTermsName.subscribe((name: string) => {
+      if (name && name.trim() !== '') {
+        params['ownTermsName'] = name.toString();
+      }
+    });
 
-  return this.http.get(`http://localhost:8080/media/${filename}/detection`, options);
-}
+    const options = {
+      headers: headers,
+      params: params,
+      responseType: 'text' as 'json',
+    };
+
+    return this.http.get(
+      `http://localhost:8080/media/${filename}/detection`,
+      options
+    );
+  }
 
   private ownTermsName = new BehaviorSubject<string>('');
   setOwnTermName(url: string) {
@@ -123,29 +128,27 @@ export class MediaService {
     return this.ownTermsName.asObservable();
   }
 
-deleteFile(fileId: string): Observable<any> {
+  deleteFile(fileId: string): Observable<any> {
+    const ownTermsName = this.getOwnTermName();
 
-  const ownTermsName = this.getOwnTermName();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this.token,
+    });
 
-  const headers = new HttpHeaders({
-    Authorization: 'Bearer ' + this.token
-  });
-  
-  let params = {};
-  const options = {
-    headers: headers,
-    params: params,
-    responseType: 'text' as 'json'
-  };
-  
-  ownTermsName.subscribe((name: string) => {
-    if (name && name.trim() !== '') {
-      params['ownTermsName'] = name.toString();
-      console.log('Own terms name:', name);
-    }
-  });
+    let params = {};
+    const options = {
+      headers: headers,
+      params: params,
+      responseType: 'text' as 'json',
+    };
 
-  return this.http.delete(`http://localhost:8080/media/${fileId}`, options);
-}
+    ownTermsName.subscribe((name: string) => {
+      if (name && name.trim() !== '') {
+        params['ownTermsName'] = name.toString();
+        console.log('Own terms name:', name);
+      }
+    });
 
+    return this.http.delete(`http://localhost:8080/media/${fileId}`, options);
+  }
 }

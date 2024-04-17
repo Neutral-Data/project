@@ -32,6 +32,7 @@ import com.opencsv.exceptions.CsvException;
 
 import io.dataapps.chlorine.finder.FinderEngine;
 import jakarta.annotation.PostConstruct;
+
 @Service
 public class FileSystemStorageService implements StorageService {
 
@@ -81,7 +82,7 @@ public class FileSystemStorageService implements StorageService {
                 if (filename.endsWith(".csv")) {
                     try (CSVReader reader = new CSVReader(Files.newBufferedReader(file))) {
                         List<String[]> lines = reader.readAll();
-                        
+
                         Writer writer = Files.newBufferedWriter(file, StandardOpenOption.TRUNCATE_EXISTING);
                         CSVWriter csvWriter = new CSVWriter(writer,
                                 CSVWriter.DEFAULT_SEPARATOR,
@@ -108,7 +109,6 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
-    
     public String checkFirstRow(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
@@ -125,12 +125,14 @@ public class FileSystemStorageService implements StorageService {
                         throw new RuntimeException("Error reading CSV file: " + filename, e);
                     }
 
-                    StringBuilder responseBuilder = new StringBuilder("The first row contains the following sensitive terms:\n");
+                    StringBuilder responseBuilder = new StringBuilder(
+                            "The first row contains the following sensitive terms:\n");
                     List<Integer> sensitiveColumns = new ArrayList<>();
 
                     for (int columnIndex = 0; columnIndex < lines.get(0).length; columnIndex++) {
                         String entry = lines.get(0)[columnIndex];
-                        boolean isBankAccount = Pattern.matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$", entry);
+                        boolean isBankAccount = Pattern
+                                .matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$", entry);
                         FinderEngine engine = new FinderEngine();
                         List<String> matchedValues = engine.find(entry);
                         boolean containsSensitiveData = containsColumnSensitiveInformation(entry);
@@ -153,11 +155,11 @@ public class FileSystemStorageService implements StorageService {
                         Path newFile = rootLocation.resolve("new_" + filename);
 
                         try (Writer writer = Files.newBufferedWriter(newFile, StandardOpenOption.CREATE);
-								CSVWriter csvWriter = new CSVWriter(writer,
-						        CSVWriter.DEFAULT_SEPARATOR,
-						        CSVWriter.NO_QUOTE_CHARACTER,
-						        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-						        CSVWriter.DEFAULT_LINE_END)) {
+                                CSVWriter csvWriter = new CSVWriter(writer,
+                                        CSVWriter.DEFAULT_SEPARATOR,
+                                        CSVWriter.NO_QUOTE_CHARACTER,
+                                        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                        CSVWriter.DEFAULT_LINE_END)) {
                             for (String[] line : lines) {
                                 List<String> filteredRow = new ArrayList<>();
 
@@ -183,7 +185,7 @@ public class FileSystemStorageService implements StorageService {
             throw new RuntimeException("Could not read file: " + filename);
         }
     }
-    
+
     public String checkRows(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
@@ -199,7 +201,8 @@ public class FileSystemStorageService implements StorageService {
                         throw new RuntimeException("Error reading CSV file: " + filename, e);
                     }
 
-                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain sensitive terms:\n");
+                    StringBuilder responseBuilder = new StringBuilder(
+                            "\n\nThe following rows may contain sensitive terms:\n");
                     List<Integer> sensitiveRows = new ArrayList<>();
 
                     for (int rowIndex = 0; rowIndex < lines.size(); rowIndex++) {
@@ -208,15 +211,21 @@ public class FileSystemStorageService implements StorageService {
 
                         for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
                             String entry = row[columnIndex];
-                            boolean isBankAccount = Pattern.matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$", entry);
-                            boolean isPhoneNumber = Pattern.matches("^(\\+|00)?(\\d{1,3})?[\\s-]?(\\d{3}[\\s-]?)?(\\d{4}[\\s-]?\\d{3}|\\d{2}[\\s-]?\\d{2}[\\s-]?\\d{2}|\\d{2}[\\s-]?\\d{3}[\\s-]?\\d{2})$", entry);
-                            boolean isGPSCoordinate = Pattern.matches("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$", entry);
+                            boolean isBankAccount = Pattern
+                                    .matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]{4}[0-9]{7}([A-Z0-9]?){0,16}$", entry);
+                            boolean isPhoneNumber = Pattern.matches(
+                                    "^(\\+|00)?(\\d{1,3})?[\\s-]?(\\d{3}[\\s-]?)?(\\d{4}[\\s-]?\\d{3}|\\d{2}[\\s-]?\\d{2}[\\s-]?\\d{2}|\\d{2}[\\s-]?\\d{3}[\\s-]?\\d{2})$",
+                                    entry);
+                            boolean isGPSCoordinate = Pattern.matches(
+                                    "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$",
+                                    entry);
 
                             FinderEngine engine = new FinderEngine();
                             List<String> matchedValues = engine.find(entry);
                             boolean containsSensitiveData = containsRowSensitiveInformation(entry);
 
-                            if (containsSensitiveData || !matchedValues.isEmpty() || isBankAccount || isPhoneNumber || isGPSCoordinate) {
+                            if (containsSensitiveData || !matchedValues.isEmpty() || isBankAccount || isPhoneNumber
+                                    || isGPSCoordinate) {
                                 rowContainsSensitiveData = true;
                                 break;
                             }
@@ -233,11 +242,11 @@ public class FileSystemStorageService implements StorageService {
                         Path newFile = rootLocation.resolve("new_" + filename);
 
                         try (Writer writer = Files.newBufferedWriter(newFile, StandardOpenOption.CREATE);
-                             CSVWriter csvWriter = new CSVWriter(writer,
-                                     CSVWriter.DEFAULT_SEPARATOR,
-                                     CSVWriter.NO_QUOTE_CHARACTER,
-                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                                     CSVWriter.DEFAULT_LINE_END)) {
+                                CSVWriter csvWriter = new CSVWriter(writer,
+                                        CSVWriter.DEFAULT_SEPARATOR,
+                                        CSVWriter.NO_QUOTE_CHARACTER,
+                                        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                        CSVWriter.DEFAULT_LINE_END)) {
                             for (int i = 0; i < lines.size(); i++) {
                                 if (!sensitiveRows.contains(i)) {
                                     csvWriter.writeNext(lines.get(i));
@@ -249,7 +258,6 @@ public class FileSystemStorageService implements StorageService {
                     } catch (IOException e) {
                         throw new RuntimeException("Error writing new CSV file: " + filename, e);
                     }
-                    
 
                 }
                 throw new RuntimeException("Could not read file " + filename);
@@ -259,7 +267,7 @@ public class FileSystemStorageService implements StorageService {
             throw new RuntimeException("Could not read file: " + filename);
         }
     }
-        
+
     private boolean containsColumnSensitiveInformation(String entry) {
         List<String> sensitiveTerms = readSensitiveTermsFromFile("columns_sensitive_terms.txt");
 
@@ -271,7 +279,7 @@ public class FileSystemStorageService implements StorageService {
         }
         return false;
     }
-    
+
     private boolean containsRowSensitiveInformation(String entry) {
         List<String> sensitiveTerms = readSensitiveTermsFromFile("rows_sensitive_terms.txt");
 
@@ -287,7 +295,7 @@ public class FileSystemStorageService implements StorageService {
     private List<String> readSensitiveTermsFromFile(String fileName) {
         List<String> terms = new ArrayList<>();
         try (InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
-             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             if (br != null) {
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -300,17 +308,17 @@ public class FileSystemStorageService implements StorageService {
         }
         return terms;
     }
-    
+
     private String removeAccents(String text) {
         return Normalizer.normalize(text, Normalizer.Form.NFD)
-            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
-    
+
     public boolean deleteFile(String filename) {
         try {
             Path file = rootLocation.resolve(filename);
-            Path file_new = rootLocation.resolve("new_"+filename);
-            Path file_new_new = rootLocation.resolve("new_new_"+filename);
+            Path file_new = rootLocation.resolve("new_" + filename);
+            Path file_new_new = rootLocation.resolve("new_new_" + filename);
             Files.deleteIfExists(file_new);
             Files.deleteIfExists(file_new_new);
             return Files.deleteIfExists(file);
@@ -319,7 +327,7 @@ public class FileSystemStorageService implements StorageService {
             return false;
         }
     }
-    
+
     public boolean deleteOwnTermsFile(String ownTermsName) {
         try {
             Path file = rootLocation.resolve(ownTermsName);
@@ -329,7 +337,7 @@ public class FileSystemStorageService implements StorageService {
             return false;
         }
     }
-    
+
     @Override
     public String checkProfanity(String filename, String profanityFilename) {
         try {
@@ -348,7 +356,8 @@ public class FileSystemStorageService implements StorageService {
                         throw new RuntimeException("Error reading CSV file: " + filename, e);
                     }
 
-                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain profanity terms:\n");
+                    StringBuilder responseBuilder = new StringBuilder(
+                            "\n\nThe following rows may contain profanity terms:\n");
                     List<Integer> sensitiveRows = new ArrayList<>();
                     List<String[]> profanityTerms;
                     try (CSVReader profanityReader = new CSVReader(Files.newBufferedReader(profanityFilePath))) {
@@ -363,7 +372,8 @@ public class FileSystemStorageService implements StorageService {
 
                         if (detectedTerm != null) {
                             sensitiveRows.add(rowIndex);
-                            responseBuilder.append("Row ").append(rowIndex + 1).append(": Detected profanity term - ").append(detectedTerm).append("\n");
+                            responseBuilder.append("Row ").append(rowIndex + 1).append(": Detected profanity term - ")
+                                    .append(detectedTerm).append("\n");
                             responseBuilder.append(String.join(",", row)).append("\n");
                         }
                     }
@@ -372,11 +382,11 @@ public class FileSystemStorageService implements StorageService {
                         Path newFilePath = rootLocation.resolve("new_" + filename);
 
                         try (Writer writer = Files.newBufferedWriter(newFilePath, StandardOpenOption.CREATE);
-                             CSVWriter csvWriter = new CSVWriter(writer,
-                                     CSVWriter.DEFAULT_SEPARATOR,
-                                     CSVWriter.NO_QUOTE_CHARACTER,
-                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                                     CSVWriter.DEFAULT_LINE_END)) {
+                                CSVWriter csvWriter = new CSVWriter(writer,
+                                        CSVWriter.DEFAULT_SEPARATOR,
+                                        CSVWriter.NO_QUOTE_CHARACTER,
+                                        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                        CSVWriter.DEFAULT_LINE_END)) {
                             for (int i = 0; i < csvLines.size(); i++) {
                                 if (!sensitiveRows.contains(i)) {
                                     csvWriter.writeNext(csvLines.get(i));
@@ -416,9 +426,7 @@ public class FileSystemStorageService implements StorageService {
         }
         return null;
     }
-    
-    
-    
+
     public String storeText(String content) throws IOException {
         String filename = UUID.randomUUID().toString() + ".txt";
         File file = new File(mediaLocation + "/" + filename);
@@ -427,8 +435,7 @@ public class FileSystemStorageService implements StorageService {
         }
         return filename;
     }
-    
-    
+
     public String checkOwnTerms(String filename, String termsFileName) {
         try {
             Path file = rootLocation.resolve(filename);
@@ -444,7 +451,8 @@ public class FileSystemStorageService implements StorageService {
                         throw new RuntimeException("Error reading CSV file: " + filename, e);
                     }
 
-                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain your own sensible terms:\n");
+                    StringBuilder responseBuilder = new StringBuilder(
+                            "\n\nThe following rows may contain your own sensible terms:\n");
                     List<Integer> sensitiveRows = new ArrayList<>();
 
                     for (int rowIndex = 0; rowIndex < lines.size(); rowIndex++) {
@@ -453,7 +461,7 @@ public class FileSystemStorageService implements StorageService {
 
                         for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
                             String entry = row[columnIndex];
-                            boolean containsSensitiveData = containsOwnTermsSensitiveInformation(entry,termsFileName);
+                            boolean containsSensitiveData = containsOwnTermsSensitiveInformation(entry, termsFileName);
 
                             if (containsSensitiveData) {
                                 rowContainsSensitiveData = true;
@@ -472,11 +480,11 @@ public class FileSystemStorageService implements StorageService {
                         Path newFile = rootLocation.resolve("new_" + filename);
 
                         try (Writer writer = Files.newBufferedWriter(newFile, StandardOpenOption.CREATE);
-                             CSVWriter csvWriter = new CSVWriter(writer,
-                                     CSVWriter.DEFAULT_SEPARATOR,
-                                     CSVWriter.NO_QUOTE_CHARACTER,
-                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                                     CSVWriter.DEFAULT_LINE_END)) {
+                                CSVWriter csvWriter = new CSVWriter(writer,
+                                        CSVWriter.DEFAULT_SEPARATOR,
+                                        CSVWriter.NO_QUOTE_CHARACTER,
+                                        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                        CSVWriter.DEFAULT_LINE_END)) {
                             for (int i = 0; i < lines.size(); i++) {
                                 if (!sensitiveRows.contains(i)) {
                                     csvWriter.writeNext(lines.get(i));
@@ -488,7 +496,6 @@ public class FileSystemStorageService implements StorageService {
                     } catch (IOException e) {
                         throw new RuntimeException("Error writing new CSV file: " + filename, e);
                     }
-                    
 
                 }
                 throw new RuntimeException("Could not read file " + filename);
@@ -498,7 +505,7 @@ public class FileSystemStorageService implements StorageService {
             throw new RuntimeException("Could not read file: " + filename);
         }
     }
-    
+
     private boolean containsOwnTermsSensitiveInformation(String entry, String termsFileName) {
         List<String> sensitiveTerms = readOwnSensitiveTermsFromFile(termsFileName);
 
@@ -510,8 +517,7 @@ public class FileSystemStorageService implements StorageService {
         }
         return false;
     }
-    
-    
+
     private List<String> readOwnSensitiveTermsFromFile(String fileName) {
         List<String> terms = new ArrayList<>();
         try {
@@ -531,5 +537,5 @@ public class FileSystemStorageService implements StorageService {
         }
         return terms;
     }
-    
+
 }

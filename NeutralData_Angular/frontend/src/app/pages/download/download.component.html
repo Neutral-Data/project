@@ -5,15 +5,26 @@
         <h3>Detection:</h3>
         <div class="col-12 mt-4 detection-area">
           <pre class="detection-content">{{ detectionInfo }}</pre>
-      </div>
-        <div *ngIf="!detectionInfo && userService.isLogged()" class="d-flex justify-content-center align-items-center py-4">
+        </div>
+        <div
+          *ngIf="!detectionInfo && userService.isLogged()"
+          class="d-flex justify-content-center align-items-center py-4"
+        >
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <div *ngIf="detectionInfo && userService.isLogged()" class="col-12 mt-4">
+        <div
+          *ngIf="detectionInfo && userService.isLogged()"
+          class="col-12 mt-4"
+        >
           <h3>Clear Dataset</h3>
-          <button type="submit" (click)="downloadFile()" id="submit" class="btn btn-primary btn-lg">
+          <button
+            type="submit"
+            (click)="downloadFile()"
+            id="submit"
+            class="btn btn-primary btn-lg"
+          >
             Download file
           </button>
         </div>

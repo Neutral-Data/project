@@ -8,10 +8,9 @@ import { MediaService } from 'src/app/services/media.service';
 @Component({
   selector: 'app-upload-github',
   templateUrl: './upload-github.component.html',
-  styleUrls: ['./upload-github.component.css']
+  styleUrls: ['./upload-github.component.css'],
 })
 export class UploadGithubComponent implements OnInit {
-
   fileUrl: string = '';
   uploading: boolean = false;
   fileUploadSuccess: boolean = false;
@@ -36,8 +35,8 @@ export class UploadGithubComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-      this.fileUrl = this.githubService.getCsvFileUrl();
-      this.loadFileFromGithub();
+    this.fileUrl = this.githubService.getCsvFileUrl();
+    this.loadFileFromGithub();
   }
 
   loadFileFromGithub() {
@@ -45,7 +44,7 @@ export class UploadGithubComponent implements OnInit {
     console.log('Esta URL:', url);
     this.http.get(url, { responseType: 'arraybuffer' }).subscribe(
       (data: ArrayBuffer) => {
-        this.fileName = this.extractFilenameFromUrl(url)
+        this.fileName = this.extractFilenameFromUrl(url);
         const records = this.parseFileData(data, url);
         this.csvRecords = records.slice(0, 1000);
         this.columnHeaders = Object.keys(records[0]);
@@ -94,37 +93,43 @@ export class UploadGithubComponent implements OnInit {
   upload() {
     this.uploading = true;
     const url = this.fileUrl;
-  
+
     this.http.get(url, { responseType: 'arraybuffer' }).subscribe(
       (data: ArrayBuffer) => {
         const file: Blob = this.convertToCsv(data, url);
-  
+
         const formData = new FormData();
-        formData.append('file', file, this.adjustFilename(this.extractFilenameFromUrl(url)));
+        formData.append(
+          'file',
+          file,
+          this.adjustFilename(this.extractFilenameFromUrl(url))
+        );
         if (this.customTerms.trim() !== '') {
-          formData.append("customTerms", this.customTerms.trim());
+          formData.append('customTerms', this.customTerms.trim());
           this.ownTerms = true;
         }
         this.mediaService.setDetectOptions({
           detectColumns: this.detectColumns,
           detectRows: this.detectRows,
           detectProfanity: this.detectProfanity,
-          ownTerms: this.ownTerms
+          ownTerms: this.ownTerms,
         });
-  
+
         this.mediaService.uploadFile(formData).subscribe(
           (response) => {
             this.uploading = false;
             this.fileUploadSuccess = true;
             console.log('File uploaded successfully:', response);
-  
+
             this.mediaService.setFileUrl(response['url']);
             if (response['terms'] !== 'None') {
               this.mediaService.setOwnTermName(response['terms']);
             }
-            this.mediaService.setOriginalFileName(this.extractFilenameFromUrl(url));
+            this.mediaService.setOriginalFileName(
+              this.extractFilenameFromUrl(url)
+            );
             this.mediaService.setFileId(response['url'].split('/media/')[1]);
-            
+
             this.router.navigate(['/download']);
           },
           (error) => {
@@ -140,14 +145,14 @@ export class UploadGithubComponent implements OnInit {
       }
     );
   }
-  
+
   private adjustFilename(filename: string): string {
     if (filename.toLowerCase().endsWith('.xlsx')) {
       return filename.replace('.xlsx', '.csv');
     }
     return filename;
   }
-  
+
   private convertToCsv(data: ArrayBuffer, url: string): Blob {
     const extension = url.split('.').pop()?.toLowerCase();
     let filename = this.extractFilenameFromUrl(url);
@@ -163,7 +168,7 @@ export class UploadGithubComponent implements OnInit {
       return new Blob([text], { type: 'text/csv' });
     }
   }
-  
+
   private extractFilenameFromUrl(url: string): string {
     const segments = url.split('/');
     return segments[segments.length - 1];
