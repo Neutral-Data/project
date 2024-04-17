@@ -13,6 +13,7 @@ import { UploadComponent } from './pages/upload/upload.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { GithubComponent } from './pages/github/github.component';
 import { UploadGithubComponent } from './pages/upload-github/upload-github.component';
+import { HowToUseComponent } from './pages/how-to-use/how-to-use.component';
 
 
 
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
   {path:'about-us',component:AboutusComponent},
+  {path:'how-to-use',component:HowToUseComponent},
   {path:'error',component:ErrorComponent},
   {path:'manage-users',component:DashboardComponent, canActivate:[loginGuard, hasRoleAdminGuard]},
   { path: '**', component:ErrorComponent },

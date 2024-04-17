@@ -18,6 +18,10 @@ public interface StorageService {
 	
 	String checkProfanity(String filename,String profanityFilename);
 	
+	String storeText(String content) throws IOException;
+	
+	String checkOwnTerms(String filename,String ownTermsName);
+	
 	boolean deleteFile(String filename);
 
 }

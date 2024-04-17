@@ -1,6 +1,9 @@
 package neutraldata.project.storage;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -317,6 +320,16 @@ public class FileSystemStorageService implements StorageService {
         }
     }
     
+    public boolean deleteOwnTermsFile(String ownTermsName) {
+        try {
+            Path file = rootLocation.resolve(ownTermsName);
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     @Override
     public String checkProfanity(String filename, String profanityFilename) {
         try {
@@ -337,8 +350,6 @@ public class FileSystemStorageService implements StorageService {
 
                     StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain profanity terms:\n");
                     List<Integer> sensitiveRows = new ArrayList<>();
-
-                    // Leer el CSV de profanidades
                     List<String[]> profanityTerms;
                     try (CSVReader profanityReader = new CSVReader(Files.newBufferedReader(profanityFilePath))) {
                         profanityTerms = profanityReader.readAll();
@@ -405,4 +416,120 @@ public class FileSystemStorageService implements StorageService {
         }
         return null;
     }
+    
+    
+    
+    public String storeText(String content) throws IOException {
+        String filename = UUID.randomUUID().toString() + ".txt";
+        File file = new File(mediaLocation + "/" + filename);
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(content);
+        }
+        return filename;
+    }
+    
+    
+    public String checkOwnTerms(String filename, String termsFileName) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            Resource resource = new UrlResource((file.toUri()));
+
+            if (resource.exists() || resource.isReadable()) {
+                if (filename.endsWith(".csv")) {
+                    List<String[]> lines;
+
+                    try (CSVReader reader = new CSVReader(Files.newBufferedReader(file))) {
+                        lines = reader.readAll();
+                    } catch (IOException | CsvException e) {
+                        throw new RuntimeException("Error reading CSV file: " + filename, e);
+                    }
+
+                    StringBuilder responseBuilder = new StringBuilder("\n\nThe following rows may contain your own sensible terms:\n");
+                    List<Integer> sensitiveRows = new ArrayList<>();
+
+                    for (int rowIndex = 0; rowIndex < lines.size(); rowIndex++) {
+                        String[] row = lines.get(rowIndex);
+                        boolean rowContainsSensitiveData = false;
+
+                        for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+                            String entry = row[columnIndex];
+                            boolean containsSensitiveData = containsOwnTermsSensitiveInformation(entry,termsFileName);
+
+                            if (containsSensitiveData) {
+                                rowContainsSensitiveData = true;
+                                break;
+                            }
+                        }
+
+                        if (rowContainsSensitiveData) {
+                            sensitiveRows.add(rowIndex);
+                            responseBuilder.append("Row ").append(rowIndex + 1).append(":\n");
+                            responseBuilder.append(String.join(",", row)).append("\n");
+                        }
+                    }
+
+                    try {
+                        Path newFile = rootLocation.resolve("new_" + filename);
+
+                        try (Writer writer = Files.newBufferedWriter(newFile, StandardOpenOption.CREATE);
+                             CSVWriter csvWriter = new CSVWriter(writer,
+                                     CSVWriter.DEFAULT_SEPARATOR,
+                                     CSVWriter.NO_QUOTE_CHARACTER,
+                                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                     CSVWriter.DEFAULT_LINE_END)) {
+                            for (int i = 0; i < lines.size(); i++) {
+                                if (!sensitiveRows.contains(i)) {
+                                    csvWriter.writeNext(lines.get(i));
+                                }
+                            }
+                        }
+
+                        return responseBuilder.toString();
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error writing new CSV file: " + filename, e);
+                    }
+                    
+
+                }
+                throw new RuntimeException("Could not read file " + filename);
+            }
+            throw new RuntimeException("Could not read file: " + filename);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Could not read file: " + filename);
+        }
+    }
+    
+    private boolean containsOwnTermsSensitiveInformation(String entry, String termsFileName) {
+        List<String> sensitiveTerms = readOwnSensitiveTermsFromFile(termsFileName);
+
+        for (String term : sensitiveTerms) {
+            String normalizedEntry = removeAccents(entry.toLowerCase());
+            if (normalizedEntry.contains(term.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    private List<String> readOwnSensitiveTermsFromFile(String fileName) {
+        List<String> terms = new ArrayList<>();
+        try {
+            String filePath = mediaLocation + "/" + fileName;
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line = br.readLine();
+            if (line != null) {
+                String[] termArray = line.split(",");
+                for (String term : termArray) {
+                    terms.add(term.trim());
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Could not read own terms file: " + fileName);
+        }
+        return terms;
+    }
+    
 }

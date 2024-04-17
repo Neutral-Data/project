@@ -25,6 +25,8 @@ export class UploadGithubComponent implements OnInit {
   detectColumns: boolean = true;
   detectRows: boolean = true;
   detectProfanity: boolean = false;
+  customTerms: string = '';
+  ownTerms: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -99,11 +101,15 @@ export class UploadGithubComponent implements OnInit {
   
         const formData = new FormData();
         formData.append('file', file, this.adjustFilename(this.extractFilenameFromUrl(url)));
-  
+        if (this.customTerms.trim() !== '') {
+          formData.append("customTerms", this.customTerms.trim());
+          this.ownTerms = true;
+        }
         this.mediaService.setDetectOptions({
           detectColumns: this.detectColumns,
           detectRows: this.detectRows,
-          detectProfanity: this.detectProfanity
+          detectProfanity: this.detectProfanity,
+          ownTerms: this.ownTerms
         });
   
         this.mediaService.uploadFile(formData).subscribe(
@@ -113,6 +119,9 @@ export class UploadGithubComponent implements OnInit {
             console.log('File uploaded successfully:', response);
   
             this.mediaService.setFileUrl(response['url']);
+            if (response['terms'] !== 'None') {
+              this.mediaService.setOwnTermName(response['terms']);
+            }
             this.mediaService.setOriginalFileName(this.extractFilenameFromUrl(url));
             this.mediaService.setFileId(response['url'].split('/media/')[1]);
             

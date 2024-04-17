@@ -1,26 +1,8 @@
-
-
 .footer{
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-}
-
-.footer .footer-socila-icon a:hover {
-    background: #1baaa0;
-}
-
-.footer .footer-border-top {
-    border-top: 1px solid #ffffff;
-}
-
-.bg-dark-gradient {
-    background: #0D6EFD;
-}
-
-.white-link a {
-    color: #ffffff;
 }
 
 a {

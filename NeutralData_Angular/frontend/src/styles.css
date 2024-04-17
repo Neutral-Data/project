@@ -17,7 +17,7 @@ body{
     border-radius: 0;
 }
 footer {
-    margin-top: auto; /* Coloca el footer al final de la columna */
+    margin-top: auto;
   }
 .btn-circle.btn-lg, .btn-group-lg>.btn-circle.btn {
     width: 50px;

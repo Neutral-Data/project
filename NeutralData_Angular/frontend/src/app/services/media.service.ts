@@ -91,29 +91,59 @@ export class MediaService {
   });
 
   const detectOptions = this.getDetectOptions();
+  const ownTermsName = this.getOwnTermName();
+  let params = {
+    'detectColumns': detectOptions.detectColumns.toString(),
+    'detectRows': detectOptions.detectRows.toString(),
+    'detectProfanity': detectOptions.detectProfanity.toString(),
+    'ownTerms': detectOptions.ownTerms.toString()
+  };
+  
+  ownTermsName.subscribe((name: string) => {
+    if (name && name.trim() !== '') {
+      params['ownTermsName'] = name.toString();
+    }
+  });
 
   const options = {
     headers: headers,
-    params: {
-      'detectColumns': detectOptions.detectColumns.toString(),
-      'detectRows': detectOptions.detectRows.toString(),
-      'detectProfanity': detectOptions.detectProfanity.toString()
-    },
+    params: params,
     responseType: 'text' as 'json'
   };
 
   return this.http.get(`http://localhost:8080/media/${filename}/detection`, options);
 }
 
+  private ownTermsName = new BehaviorSubject<string>('');
+  setOwnTermName(url: string) {
+    this.ownTermsName.next(url);
+  }
+
+  getOwnTermName() {
+    return this.ownTermsName.asObservable();
+  }
+
 deleteFile(fileId: string): Observable<any> {
+
+  const ownTermsName = this.getOwnTermName();
+
   const headers = new HttpHeaders({
     Authorization: 'Bearer ' + this.token
   });
-
+  
+  let params = {};
   const options = {
     headers: headers,
+    params: params,
     responseType: 'text' as 'json'
   };
+  
+  ownTermsName.subscribe((name: string) => {
+    if (name && name.trim() !== '') {
+      params['ownTermsName'] = name.toString();
+      console.log('Own terms name:', name);
+    }
+  });
 
   return this.http.delete(`http://localhost:8080/media/${fileId}`, options);
 }

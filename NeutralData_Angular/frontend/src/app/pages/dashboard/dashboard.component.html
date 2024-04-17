@@ -1,23 +1,13 @@
-<div class="container" id="main-container" style="margin-top:50px">
+<div class="main-container">
     <div class="row flex-lg-nowrap">
-     
       <div class="col">
-       
         <div class="row flex-lg-nowrap">
           <div class="col mb-2">
-            <div class="e-panel card">
-              <div class="card-body">
                 <div class="e-table">
-                  <div class="table-responsive table-lg mt-3">
+                  <div class="table-responsive table-lg">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                          <th class="align-top">
-                            <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0">
-                              <input type="checkbox" class="custom-control-input" id="all-items">
-                              <label class="custom-control-label" for="all-items"></label>
-                            </div>
-                          </th>
                           <th class="max-width">First name</th>
                           <th class="max-width">Last name</th>
                           <th class="max-width">Username</th>
@@ -30,12 +20,6 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let user of users">
-                          <td class="align-middle">
-                            <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">
-                              <input type="checkbox" class="custom-control-input" id="item-{{user?.id}}">
-                              <label class="custom-control-label" for="item-{{user?.id}}"></label>
-                            </div>
-                          </td>
                           <td class="text-nowrap align-middle">{{user?.firstName}}</td>
                           <td class="text-nowrap align-middle">{{user?.lastName}}</td>
                           <td class="text-nowrap align-middle">{{user?.username}}</td>
@@ -46,80 +30,20 @@
                           <td class="text-center align-middle">
                             <div class="btn-group align-top">
                                 <button class="btn btn-sm btn-outline-secondary " type="button" data-toggle="modal" (click)="onOpenModal(user,'edit')" data-target="#edit-user-form-modal">Edit</button>
-                                <button class="btn btn-sm btn-outline-secondary " type="button" data-target="#delete-user-modal" (click)="onOpenModal(user,'delete')"><i class="fa fa-trash"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary " type="button" data-toggle="modal" data-target="#delete-user-modal" (click)="onOpenModal(user,'delete')"><i class="fa fa-trash"></i></button>
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  <div class="d-flex justify-content-center">
-                    <ul class="pagination mt-3 mb-0">
-                      <li class="disabled page-item"><a href="#" class="page-link">‹</a></li>
-                      <li class="active page-item"><a href="#" class="page-link">1</a></li>
-                      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                      <li class="page-item"><a href="#" class="page-link">3</a></li>
-                      <li class="page-item"><a href="#" class="page-link">4</a></li>
-                      <li class="page-item"><a href="#" class="page-link">5</a></li>
-                      <li class="page-item"><a href="#" class="page-link">›</a></li>
-                      <li class="page-item"><a href="#" class="page-link">»</a></li>
-                    </ul>
-                  </div>
                 </div>
-              </div>
-            </div>
+
           </div>
           <div class="col-12 col-lg-3 mb-3">
-            <div class="card">
-              <div class="card-body">
-                <div class="text-center px-xl-3">
-                  <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#new-user-form-modal" (click)="onOpenModal(null, 'add')">New User</button>
+                <div class="text-center">
+                  <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#new-user-form-modal" (click)="onOpenModal(null, 'add')">New User</button>
                 </div>
-                <hr class="my-3">
-                <div class="e-navlist e-navlist--active-bold">
-                  <ul class="nav">
-                    <li class="nav-item active"><a href="" class="nav-link"><span>All</span>&nbsp;<small>/&nbsp;32</small></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><span>Active</span>&nbsp;<small>/&nbsp;16</small></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><span>Selected</span>&nbsp;<small>/&nbsp;0</small></a></li>
-                  </ul>
-                </div>
-                <hr class="my-3">
-                <div>
-                  <div class="form-group">
-                    <label>Date from - to:</label>
-                    <div>
-                      <input id="dates-range" class="form-control flatpickr-input" placeholder="01 Dec 17 - 27 Jan 18" type="text" readonly="readonly">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Search by Name:</label>
-                    <div><input class="form-control w-100" type="text" placeholder="Name" value=""></div>
-                  </div>
-                </div>
-                <hr class="my-3">
-                <div class="">
-                  <label>Status:</label>
-                  <div class="px-2">
-                    <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="user-status" id="users-status-disabled">
-                      <label class="custom-control-label" for="users-status-disabled">Disabled</label>
-                    </div>
-                  </div>
-                  <div class="px-2">
-                    <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="user-status" id="users-status-active">
-                      <label class="custom-control-label" for="users-status-active">Active</label>
-                    </div>
-                  </div>
-                  <div class="px-2">
-                    <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" checked="">
-                      <label class="custom-control-label" for="users-status-any">Any</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>  
         <!--Create User Form Modal -->
@@ -140,17 +64,17 @@
                         <div class="row"><br></div>
                         <div class="form-group">
                           <label>FistName</label>
-                          <input class="form-control" type="text" ngModel name="firstName" placeholder="johnny.s" value="johnny.s">
+                          <input class="form-control" type="text" ngModel name="firstName" placeholder="Enter first name" value="johnny.s">
                         </div>
                         <div class="row"><br></div>
                         <div class="form-group">
                           <label>LastName</label>
-                          <input class="form-control" type="text" ngModel name="lastName" placeholder="johnny.s" value="johnny.s">
+                          <input class="form-control" type="text" ngModel name="lastName" placeholder="Enter last name" value="johnny.s">
                         </div>
                         <div class="row"><br></div>
                         <div class="form-group">
                           <label>Username</label>
-                          <input class="form-control" type="text" ngModel name="username" placeholder="johnny.s" value="johnny.s">
+                          <input class="form-control" type="text" ngModel name="username" placeholder="Enter username" value="johnny.s">
                         </div>
                       </div>
                       <div class="row">

@@ -18,11 +18,9 @@ ngOnInit(): void {
   this.mediaService.getFileId().subscribe(
     (fileId: string) => {
       this.fileId = fileId;
-      console.log('File ID:', this.fileId);
 
       this.mediaService.getDetectionInfo(this.fileId).subscribe(
         (detectionInfo) => {
-          console.log('First Row Info:', detectionInfo);
           this.detectionInfo = detectionInfo;
         },
         (error) => {

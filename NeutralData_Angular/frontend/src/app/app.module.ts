@@ -21,6 +21,7 @@ import { UploadComponent } from './pages/upload/upload.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { GithubComponent } from './pages/github/github.component';
 import { UploadGithubComponent } from './pages/upload-github/upload-github.component';
+import { HowToUseComponent } from './pages/how-to-use/how-to-use.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UploadGithubComponent } from './pages/upload-github/upload-github.compo
     UploadComponent,
     DownloadComponent,
     GithubComponent,
-    UploadGithubComponent
+    UploadGithubComponent,
+    HowToUseComponent
   ],
   imports: [
     BrowserModule,

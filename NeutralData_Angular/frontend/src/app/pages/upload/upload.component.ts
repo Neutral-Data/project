@@ -25,6 +25,9 @@ export class UploadComponent {
   detectColumns: boolean = true;
   detectRows: boolean = true;
   detectProfanity: boolean = true;
+  ownTerms: boolean = false;
+
+  customTerms: string = '';
 
   constructor(private ngxCsvParser: NgxCsvParser) {}
 
@@ -83,7 +86,7 @@ export class UploadComponent {
       .pipe()
       .subscribe(
         (result: Array<any>) => {
-          this.csvRecords = result.slice(0, 1000);
+          this.csvRecords = result.slice(0, 100);
           this.columnHeaders = this.header ? Object.keys(result[0]) : Object.keys(result[0]);
         },
         (error: NgxCSVParserError) => {
@@ -96,15 +99,23 @@ export class UploadComponent {
   upload() {
     const formData = new FormData();
     formData.append("file", this.csvfile);
+    if (this.customTerms.trim() !== '') {
+      formData.append("customTerms", this.customTerms.trim());
+      this.ownTerms = true;
+    }
     this.mediaService.setDetectOptions({
       detectColumns: this.detectColumns,
       detectRows: this.detectRows,
-      detectProfanity: this.detectProfanity
+      detectProfanity: this.detectProfanity,
+      ownTerms: this.ownTerms
     });
     
     this.mediaService.uploadFile(formData).subscribe(
       (response) => {
         this.mediaService.setFileUrl(response['url']);
+        if (response['terms'] !== 'None') {
+          this.mediaService.setOwnTermName(response['terms']);
+        }
         this.mediaService.setOriginalFileName(this.csvfile['name']);
         this.mediaService.setFileId(response['url'].split('/media/')[1]);
         this.fileUploadError = false;

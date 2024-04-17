@@ -1,16 +1,39 @@
-<div class="container">
-    <div className="row justify-content-md-center">
-        <div className="jumbotron jumbotron-fluid">
-        <div className="container">
-            <h1 className="display-4">Welcome</h1>
-
-            <p *ngIf="!userService.isLogged()" className="lead">Login to use NeutralData.</p>
-            <p *ngIf="!userService.isLogged()" className="lead">If you don't have an account, register.</p>
-            <div *ngIf="userService.isLogged()" class="col-12 mt-30">
-                <button type="submit" [routerLink]="['/upload']" id="submit" class="btn btn-primary btn-lg">Upload file</button><br><br>
-                <button type="submit" [routerLink]="['/github']" id="submit" class="btn btn-primary btn-lg">Select file from GitHub repository</button>
-            </div>
+<div class="welcome-container">
+  <main class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div *ngIf="userService.isLogged()" class="col-12 mt-30">
+          <h1 class="display-4">NeutralData</h1>
+          <p class="lead">Choose an option to start the analysis:</p>
+          <button type="submit" [routerLink]="['/upload']" id="submit" class="btn btn-primary btn-lg">Upload file</button><br><br>
+          <button type="submit" [routerLink]="['/github']" id="submit" class="btn btn-primary btn-lg">Select file from GitHub repository</button>
         </div>
+        <div *ngIf="!userService.isLogged()" class="col-12 mt-30">
+          <h1 class="display-4">Welcome to NeutralData</h1>
+          <p class="lead">Analyze data sets and find sensitive terms quickly and accurately.</p>
+          <a routerLink="/login" class="btn btn-primary btn-lg">Start Now</a>
         </div>
+      </div>
+      <div class="col-md-6">
+        <a routerLink="/about-us" ><img src="assets/images/NeutralDataLogo.png" alt="Análisis de datos" class="img-fluid"></a>
+      </div>
     </div>
+    <div class="section-divider"></div>
+    <div class="row mt-5">
+      <div class="col-md-12 intro">
+        <h1 class="text-center">What is NeutralData?</h1>
+        <br>
+        <p class="text-center">
+          NeutralData is an application born from a TFG designed to detect sensitive terms in data set files.</p>
+        <p class="text-center">
+          Some of the actions you can take are the following:</p>
+          <br>
+        <ul>
+          <li>Upload a file from your PC in .csv or .xlsx format and detect sensitive terms and profanity.</li>
+          <li>Choose from one of your public repositories on GitHub, a file in .csv or .xlsx format and perform the detection of sensitive terms and profanity.</li>
+          <li>Once the detection is finished, you will be able to download the clean file in the same input format.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
 </div>
