@@ -8,7 +8,6 @@ import { AxiosService } from 'src/app/services/axios.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor() {}
 
   axiosService = inject(AxiosService);
   router = inject(Router);
@@ -31,6 +30,7 @@ export class LoginComponent {
         this.router.navigateByUrl('/home');
       })
       .catch((error) => {
+        console.log(error);
         this.axiosService.setAuthToken(null);
         this.login_error = true;
       });
