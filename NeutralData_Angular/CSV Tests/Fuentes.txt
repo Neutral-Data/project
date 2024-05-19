@@ -1,0 +1,15 @@
+En este archivo se proporcionarán enlaces a las fuentes de kaggle de donde se sacaron los diferentes archivos CSV:
+
+1. fatalities_isr_pse_conflict_2000_to_2023.csv -> https://www.kaggle.com/datasets/asaniczka/fatalities-in-the-israeli-palestinian-conflict
+
+2. Heavy Tests.csv (DeSSI Dataset for Structured Sensitive Information, concretamente test.csv de la versión 2) -> https://www.kaggle.com/datasets/sensitivedetection/dessi-dataset-for-structured-sensitive-information?resource=download
+
+3. Students data.csv -> https://www.kaggle.com/datasets/erqizhou/students-data-analysis
+
+4. StudentsPerformance.csv -> https://www.kaggle.com/datasets/spscientist/students-performance-in-exams?resource=download
+
+5. Titanic.csv -> https://www.kaggle.com/c/titanic/data?select=train.csv
+
+6. User_Data.csv -> https://www.kaggle.com/datasets/sandragracenelson/user-data
+
+7. users.csv -> https://www.kaggle.com/datasets/vicdancastpinz/users-dataset-in-csv-format

@@ -1,8 +1,9 @@
 {
-    "client": "Thunder Client",
+    "clientName": "Thunder Client",
     "collectionName": "Tests",
-    "dateExported": "2024-03-28T00:34:24.462Z",
-    "version": "1.1",
+    "collectionId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+    "dateExported": "2024-05-19T03:15:07.192Z",
+    "version": "1.2",
     "folders": [],
     "requests": [
         {
@@ -90,9 +91,8 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2024-03-11T01:45:44.521Z",
-            "modified": "2024-03-27T23:16:12.232Z",
+            "modified": "2024-05-18T16:06:38.697Z",
             "headers": [],
-            "params": [],
             "body": {
                 "type": "json",
                 "raw": "{\n    \"username\": \"user1\",\n    \"password\": \"user1\"\n}",
@@ -115,19 +115,19 @@
                     "type": "json-query",
                     "custom": "json.id",
                     "action": "equal",
-                    "value": "2"
+                    "value": "3"
                 },
                 {
                     "type": "json-query",
                     "custom": "json.firstName",
                     "action": "equal",
-                    "value": "Usuario1"
+                    "value": "Usuario"
                 },
                 {
                     "type": "json-query",
                     "custom": "json.lastName",
                     "action": "equal",
-                    "value": "Apellido Usuario"
+                    "value": "Prueba"
                 },
                 {
                     "type": "json-query",
@@ -170,14 +170,8 @@
             "method": "POST",
             "sortNum": 15000,
             "created": "2024-03-28T00:25:55.713Z",
-            "modified": "2024-03-28T00:27:41.801Z",
+            "modified": "2024-05-18T16:37:32.530Z",
             "headers": [],
-            "params": [],
-            "body": {
-                "type": "text",
-                "raw": "Example text",
-                "form": []
-            },
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
@@ -212,9 +206,8 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2024-03-11T01:49:53.430Z",
-            "modified": "2024-03-27T23:54:58.494Z",
+            "modified": "2024-05-19T00:41:55.204Z",
             "headers": [],
-            "params": [],
             "body": {
                 "type": "formdata",
                 "raw": "",
@@ -254,6 +247,12 @@
                     "custom": "json.url",
                     "action": "notequal",
                     "value": "null"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.terms",
+                    "action": "setto",
+                    "value": "{{terms}}"
                 }
             ]
         },
@@ -542,9 +541,8 @@
             "method": "GET",
             "sortNum": 70000,
             "created": "2024-03-11T02:23:57.290Z",
-            "modified": "2024-03-28T00:19:16.686Z",
+            "modified": "2024-05-19T00:48:54.767Z",
             "headers": [],
-            "params": [],
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
@@ -555,6 +553,36 @@
                     "custom": "",
                     "action": "equal",
                     "value": "200"
+                },
+                {
+                    "type": "Content-Type",
+                    "custom": "",
+                    "action": "istype",
+                    "value": "string"
+                }
+            ]
+        },
+        {
+            "_id": "2fd8b5b8-b64e-4655-b3fc-8c528b98a949",
+            "colId": "e46bfdf6-e4e3-404f-b8cf-90e25fef6314",
+            "containerId": "",
+            "name": "Download Fail",
+            "url": "http://localhost:8080/media/f1f82fe4-e1fa-4d05-814d-5855094b755a.csv",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2024-05-19T00:46:47.795Z",
+            "modified": "2024-05-19T00:52:21.792Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "401"
                 },
                 {
                     "type": "Content-Type",
@@ -643,7 +671,9 @@
         "runOptions": {
             "delay": 100,
             "iterations": 1,
+            "stopOnFail": true,
             "dataFilePath": ""
         }
-    }
+    },
+    "ref": "I3_3-xrzB9m413CK3bFoJfM1iDpC7-d_6oIJdU_PWZARYNw9HdehMaow-0wm3wHl49nSxg6gqmhvruQXm-eA5Q"
 }
